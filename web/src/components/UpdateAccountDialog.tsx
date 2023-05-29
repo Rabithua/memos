@@ -71,11 +71,11 @@ const UpdateAccountDialog: React.FC<Props> = ({ destroy }: Props) => {
     });
   };
 
-  const handleUsernameChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPartialState({
-      username: e.target.value as string,
-    });
-  };
+  // const handleUsernameChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPartialState({
+  //     username: e.target.value as string,
+  //   });
+  // };
 
   const handleEmailChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState((state) => {
@@ -148,7 +148,7 @@ const UpdateAccountDialog: React.FC<Props> = ({ destroy }: Props) => {
           {t("common.username")}
           <span className="text-sm text-gray-400 ml-1">{t("setting.account-section.username-note")}</span>
         </p>
-        <input type="text" className="input-text" value={state.username} onChange={handleUsernameChanged} />
+        <span className="input-text cursor-not-allowed">{state.username}</span>
         <p className="text-sm">
           {t("common.nickname")}
           <span className="text-sm text-gray-400 ml-1">{t("setting.account-section.nickname-note")}</span>

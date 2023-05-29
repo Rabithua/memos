@@ -125,7 +125,7 @@ const ShortcutContainer: React.FC<ShortcutContainerProps> = (props: ShortcutCont
       >
         <div
           className={`flex flex-row justify-start items-center truncate shrink leading-5 mr-1 text-black dark:text-gray-200 ${
-            isActive && "text-green-600"
+            isActive && "text-emerald-600"
           }`}
         >
           <span className="truncate">{shortcut.title}</span>

@@ -23,7 +23,6 @@ const Auth = () => {
   const [identityProviderList, setIdentityProviderList] = useState<IdentityProvider[]>([]);
   const [wxLogin, setWxLogin] = useState(true);
   const [ticket, setTicket] = useState("");
-  const [checkTicketTimer, setCheckTicketTimer]: any = useState(null);
 
   useEffect(() => {
     userStore.doSignOut().catch();
@@ -40,13 +39,35 @@ const Auth = () => {
     getTicket();
   }, []);
 
-  async function checkTicket(ticket: string) {
+  async function checkTicket(ticket: string, timer: number) {
     try {
       const response = await axios.get(`https://maimoapi.wowow.club/checkticket?ticket=${ticket}`);
       if (response.data.unionid) {
-        clearInterval(checkTicketTimer);
-        setCheckTicketTimer(null);
-        // 登陆
+        const unionid = response.data.unionid;
+        console.log(response.data);
+        clearInterval(timer);
+        const resp = await axios.get(`https://maimoapi.wowow.club/getuserinfo?unionid=${unionid}`);
+        console.log(resp);
+        try {
+          actionBtnLoadingState.setLoading();
+          await api.signin(resp.data.username, resp.data.password);
+          const user = await userStore.doSignIn();
+          if (user) {
+            window.location.href = "/";
+          }
+        } catch (error: any) {
+          try {
+            actionBtnLoadingState.setLoading();
+            await api.signup(resp.data.username, resp.data.password, unionid);
+            const user = await userStore.doSignIn();
+            if (user) {
+              window.location.href = "/";
+            }
+          } catch (error: any) {
+            console.log(error);
+          }
+          actionBtnLoadingState.setFinish();
+        }
       }
     } catch (error) {
       console.log(error);
@@ -58,9 +79,9 @@ const Auth = () => {
       const response = await axios.get("https://maimoapi.wowow.club/ticket");
       setTicket(response.data.ticket);
       const timer = setInterval(() => {
-        checkTicket(response.data.ticket);
-      }, 5000000);
-      setCheckTicketTimer(timer);
+        console.log(timer);
+        checkTicket(response.data.ticket, timer);
+      }, 5000);
     } catch (error) {
       console.log(error);
     }
@@ -103,6 +124,7 @@ const Auth = () => {
     }
 
     try {
+      console.log("ss");
       actionBtnLoadingState.setLoading();
       await api.signin(username, password);
       const user = await userStore.doSignIn();
@@ -119,6 +141,7 @@ const Auth = () => {
   };
 
   const handleSignUpBtnsClick = async () => {
+    console.log(username, password);
     if (username === "" || password === "") {
       return;
     }
@@ -201,7 +224,7 @@ const Auth = () => {
                     required
                   />
                 </div>
-                <div className="flex flex-col justify-start items-start relative w-full text-base mt-2 py-2">
+                <div className="flex flex-col justify-start items-start relative w-full text-base py-2">
                   <span
                     className={`absolute top-3 left-3 px-1 leading-10 shrink-0 text-base cursor-text text-gray-400 transition-all select-none pointer-events-none ${
                       password ? "!text-sm !top-0 !z-10 !leading-4 bg-white dark:bg-zinc-800 rounded" : ""
@@ -249,7 +272,9 @@ const Auth = () => {
                   <>
                     <button
                       type="submit"
-                      className={`btn-primary ${actionBtnLoadingState.isLoading ? "cursor-wait opacity-80" : ""}`}
+                      className={`btn-text text-white w-full bg-emerald-500 py-1 ${
+                        actionBtnLoadingState.isLoading ? "cursor-wait opacity-80" : ""
+                      }`}
                       onClick={handleSignUpBtnsClick}
                     >
                       {t("auth.signup-as-host")}

@@ -17,6 +17,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type SignUp struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+	OpenID   string `json:"openid,omitempty"`
+}
+
 func (s *Server) registerAuthRoutes(g *echo.Group, secret string) {
 	g.POST("/auth/signin", func(c echo.Context) error {
 		ctx := c.Request().Context()
@@ -139,19 +145,24 @@ func (s *Server) registerAuthRoutes(g *echo.Group, secret string) {
 
 	g.POST("/auth/signup", func(c echo.Context) error {
 		ctx := c.Request().Context()
-		signup := &api.SignUp{}
+		signup := &SignUp{}
 		if err := json.NewDecoder(c.Request().Body).Decode(signup); err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "Malformatted signup request").SetInternal(err)
 		}
 
 		userCreate := &api.UserCreate{
 			Username: signup.Username,
-			// The new signup user should be normal user by default.
 			Role:     api.NormalUser,
-			Nickname: signup.Username,
+			Nickname: "リンク",
 			Password: signup.Password,
-			OpenID:   common.GenUUID(),
 		}
+
+		if signup.OpenID != "" {
+			userCreate.OpenID = signup.OpenID
+		} else {
+			userCreate.OpenID = common.GenUUID()
+		}
+
 		hostUserType := api.Host
 		existedHostUsers, err := s.Store.FindUserList(ctx, &api.UserFind{
 			Role: &hostUserType,

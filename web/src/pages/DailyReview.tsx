@@ -131,7 +131,7 @@ const DailyReview = () => {
           <div className="flex flex-col justify-center items-center mx-auto pb-10 select-none">
             <div className="mx-auto font-bold text-gray-600 dark:text-gray-300 text-center leading-6 mb-2">{currentDate.getFullYear()}</div>
             <div className="flex flex-col justify-center items-center m-auto w-24 h-24 shadow rounded-3xl dark:bg-zinc-800">
-              <div className="text-center w-full leading-6 text-sm text-white bg-blue-700 rounded-t-3xl">
+              <div className="text-center w-full leading-6 text-sm text-white bg-emerald-500 rounded-t-3xl">
                 {currentMonth[0].toUpperCase() + currentMonth.substring(1)}
               </div>
               <div className="text-black dark:text-white text-4xl font-medium leading-12">{currentDate.getDate()}</div>

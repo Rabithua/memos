@@ -46,7 +46,7 @@ const UpgradeVersionBanner: React.FC = () => {
   if (!state.show) return null;
 
   return (
-    <div className="flex flex-row items-center justify-center w-full py-2 text-white bg-green-600">
+    <div className="flex flex-row items-center justify-center w-full py-2 text-white bg-emerald-600">
       <a
         className="flex flex-row items-center justify-center hover:underline"
         target="_blank"

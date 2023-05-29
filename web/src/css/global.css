@@ -9,8 +9,3 @@ body {
 #root {
   @apply w-full h-full;
 }
-
-* {
-  animation-duration: 300ms;
-  transition-duration: 300ms;
-}
