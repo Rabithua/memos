@@ -11,6 +11,8 @@ import AppearanceSelect from "@/components/AppearanceSelect";
 import LocaleSelect from "@/components/LocaleSelect";
 import axios from "axios";
 
+const apiUrl = "https://maimoapi.wowow.club";
+
 const Auth = () => {
   const { t } = useTranslation();
   const globalStore = useGlobalStore();
@@ -41,12 +43,12 @@ const Auth = () => {
 
   async function checkTicket(ticket: string, timer: number) {
     try {
-      const response = await axios.get(`https://maimoapi.wowow.club/checkticket?ticket=${ticket}`);
+      const response = await axios.get(`${apiUrl}/checkticket?ticket=${ticket}`);
       if (response.data.unionid) {
         const unionid = response.data.unionid;
         console.log(response.data);
         clearInterval(timer);
-        const resp = await axios.get(`https://maimoapi.wowow.club/getuserinfo?unionid=${unionid}`);
+        const resp = await axios.get(`${apiUrl}/getuserinfo?unionid=${unionid}`);
         console.log(resp);
         try {
           actionBtnLoadingState.setLoading();
@@ -76,7 +78,7 @@ const Auth = () => {
 
   async function getTicket() {
     try {
-      const response = await axios.get("https://maimoapi.wowow.club/ticket");
+      const response = await axios.get(`${apiUrl}/ticket`);
       setTicket(response.data.ticket);
       const timer = setInterval(() => {
         console.log(timer);
@@ -184,12 +186,14 @@ const Auth = () => {
     <div className="flex flex-row justify-center items-center w-full h-full dark:bg-zinc-800">
       <div className="w-80 max-w-full h-full py-4 flex flex-col justify-start items-center">
         <div className="w-full py-4 grow flex flex-col justify-center items-center">
-          <div className="flex flex-col justify-start items-start w-full mb-4">
-            <div className="w-full flex flex-row justify-start items-center mb-2">
-              <img className="h-12 w-auto rounded-lg mr-4" src={systemStatus.customizedProfile.logoUrl} alt="" />
-              <p className="text-6xl tracking-wide text-black opacity-80 dark:text-gray-200">{systemStatus.customizedProfile.name}</p>
+          <div className="flex flex-col justify-start items-center w-full mb-4">
+            <div className="w-full flex flex-row justify-center items-center mb-2">
+              {/* <img className="h-8 w-auto rounded-lg mr-4" src={systemStatus.customizedProfile.logoUrl} alt="" /> */}
+              <p className="text-3xl tracking-wide font-bold text-emerald-500 opacity-80 dark:text-gray-200">
+                {systemStatus.customizedProfile.name}
+              </p>
             </div>
-            <p className="text-sm text-gray-700 dark:text-gray-300">
+            <p className="text-sm font-light text-center text-gray-700 dark:text-gray-300">
               {systemStatus.customizedProfile.description || t("common.memos-slogan")}
             </p>
           </div>

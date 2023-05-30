@@ -58,16 +58,16 @@ const MemoDetail = () => {
             <main className="relative flex-grow max-w-2xl w-full min-h-full flex flex-col justify-start items-start px-4">
               <Memo memo={state.memo} readonly showRelatedMemos />
             </main>
-            <div className="mt-4 w-full flex flex-row justify-center items-center gap-2">
-              <Link
-                to="/"
-                className="flex flex-row justify-center items-center text-gray-600 dark:text-gray-300 text-sm px-3 hover:opacity-80 hover:underline"
-              >
-                <Icon.Home className="w-4 h-auto mr-1 -mt-0.5" /> {t("router.back-to-home")}
-              </Link>
-            </div>
           </>
         )}
+        <div className="mt-4 w-full flex flex-row justify-center items-center gap-2">
+          <Link
+            to="/"
+            className="flex flex-row justify-center items-center text-gray-600 dark:text-gray-300 text-sm px-3 hover:opacity-80 hover:underline"
+          >
+            <Icon.Home className="w-4 h-auto mr-1 -mt-0.5" /> {t("router.back-to-home")}
+          </Link>
+        </div>
       </div>
     </section>
   );
