@@ -60,6 +60,8 @@ type CreateMemoRequest struct {
 	// Related fields
 	ResourceIDList []int                 `json:"resourceIdList"`
 	RelationList   []*MemoRelationUpsert `json:"relationList"`
+	
+	Tags string
 }
 
 type PatchMemoRequest struct {
