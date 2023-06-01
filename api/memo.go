@@ -58,7 +58,7 @@ type CreateMemoRequest struct {
 	ResourceIDList []int                 `json:"resourceIdList"`
 	RelationList   []*MemoRelationUpsert `json:"relationList"`
 	
-	Tags []string
+	Tags string
 }
 
 type PatchMemoRequest struct {
