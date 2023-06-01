@@ -86,6 +86,7 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 		}
 
 		createMemoRequest.CreatorID = userID
+
 		memoMessage, err := s.Store.CreateMemo(ctx, convertCreateMemoRequestToMemoMessage(createMemoRequest))
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to create memo").SetInternal(err)
@@ -639,6 +640,7 @@ func (s *Server) composeMemoMessageToMemoResponse(ctx context.Context, memoMessa
 		Content:    memoMessage.Content,
 		Visibility: api.Visibility(memoMessage.Visibility.String()),
 		Pinned:     memoMessage.Pinned,
+		Tags:       memoMessage.Tags,
 	}
 
 	// Compose creator name.

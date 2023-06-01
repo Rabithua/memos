@@ -52,6 +52,8 @@ type MemoMessage struct {
 	Pinned         bool
 	ResourceIDList []int
 	RelationList   []*MemoRelationMessage
+
+	Tags string
 }
 
 type FindMemoMessage struct {
@@ -86,44 +88,55 @@ type DeleteMemoMessage struct {
 }
 
 func (s *Store) CreateMemo(ctx context.Context, create *MemoMessage) (*MemoMessage, error) {
+	// 开始一个数据库事务
 	tx, err := s.db.BeginTx(ctx, nil)
 	if err != nil {
 		return nil, FormatError(err)
 	}
+	// 当函数结束时回滚事务
 	defer tx.Rollback()
 
+	// 如果创建时间为空，则设置为当前时间戳
 	if create.CreatedTs == 0 {
 		create.CreatedTs = time.Now().Unix()
 	}
 
+	create.Tags = `test,sad`
+
+	// SQL 插入语句，返回插入的行的 id, created_ts, updated_ts, row_status 列的值
 	query := `
 		INSERT INTO memo (
 			creator_id,
 			created_ts,
 			content,
-			visibility
+			visibility,
+			tags
 		)
-		VALUES (?, ?, ?, ?)
-		RETURNING id, created_ts, updated_ts, row_status
+		VALUES (?, ?, ?, ?, ?)
+		RETURNING id, created_ts, updated_ts, row_status, tags
 	`
 	if err := tx.QueryRowContext(
-		ctx,
-		query,
-		create.CreatorID,
+		ctx,              // 上下文
+		query,            // 插入语句
+		create.CreatorID, // 填充查询占位符 ? 的参数
 		create.CreatedTs,
 		create.Content,
 		create.Visibility,
+		create.Tags,
 	).Scan(
-		&create.ID,
+		&create.ID, // 扫描查询结果返回的列
 		&create.CreatedTs,
 		&create.UpdatedTs,
 		&create.RowStatus,
+		&create.Tags,
 	); err != nil {
 		return nil, FormatError(err)
 	}
+	// 提交事务
 	if err := tx.Commit(); err != nil {
 		return nil, FormatError(err)
 	}
+	// 返回插入的消息
 	memoMessage := create
 	return memoMessage, nil
 }
@@ -271,6 +284,7 @@ func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoM
 		memo.row_status AS row_status,
 		memo.content AS content,
 		memo.visibility AS visibility,
+		memo.tags AS tags,
 		CASE WHEN memo_organizer.pinned = 1 THEN 1 ELSE 0 END AS pinned,
 		GROUP_CONCAT(memo_resource.resource_id) AS resource_id_list,
 		(
@@ -322,6 +336,7 @@ func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoM
 			&memoMessage.Pinned,
 			&memoResourceIDList,
 			&memoRelationList,
+			&memoMessage.Tags,
 		); err != nil {
 			return nil, FormatError(err)
 		}
