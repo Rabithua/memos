@@ -12,8 +12,8 @@ import (
 	"sort"
 	"time"
 
-	"github.com/usememos/memos/server/profile"
-	"github.com/usememos/memos/server/version"
+	"github.com/rabithua/memos/server/profile"
+	"github.com/rabithua/memos/server/version"
 )
 
 //go:embed migration

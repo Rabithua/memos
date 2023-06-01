@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/usememos/memos/store"
-	"github.com/usememos/memos/store/db"
-	"github.com/usememos/memos/test"
+	"github.com/rabithua/memos/store"
+	"github.com/rabithua/memos/store/db"
+	"github.com/rabithua/memos/test"
 
 	// sqlite3 driver.
 	_ "github.com/mattn/go-sqlite3"

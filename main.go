@@ -3,7 +3,7 @@ package main
 import (
 	_ "github.com/mattn/go-sqlite3"
 
-	"github.com/usememos/memos/cmd"
+	"github.com/rabithua/memos/cmd"
 )
 
 func main() {

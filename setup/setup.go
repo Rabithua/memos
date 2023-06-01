@@ -7,8 +7,8 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
 )
 
 func Execute(

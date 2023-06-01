@@ -50,7 +50,7 @@ const UpgradeVersionBanner: React.FC = () => {
       <a
         className="flex flex-row items-center justify-center hover:underline"
         target="_blank"
-        href="https://github.com/usememos/memos/releases"
+        href="https://github.com/rabithua/memos/releases"
       >
         <Icon.ArrowUpCircle className="w-5 h-auto mr-2" />
         New Update <span className="ml-1 font-bold">{state.latestVersion}</span>

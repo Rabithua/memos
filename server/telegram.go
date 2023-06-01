@@ -7,10 +7,10 @@ import (
 	"path"
 	"strconv"
 
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
-	"github.com/usememos/memos/plugin/telegram"
-	"github.com/usememos/memos/store"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
+	"github.com/rabithua/memos/plugin/telegram"
+	"github.com/rabithua/memos/store"
 )
 
 type telegramHandler struct {

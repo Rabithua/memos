@@ -12,11 +12,11 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/usememos/memos/server"
-	_profile "github.com/usememos/memos/server/profile"
-	"github.com/usememos/memos/setup"
-	"github.com/usememos/memos/store"
-	"github.com/usememos/memos/store/db"
+	"github.com/rabithua/memos/server"
+	_profile "github.com/rabithua/memos/server/profile"
+	"github.com/rabithua/memos/setup"
+	"github.com/rabithua/memos/store"
+	"github.com/rabithua/memos/store/db"
 )
 
 const (

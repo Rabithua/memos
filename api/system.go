@@ -1,6 +1,6 @@
 package api
 
-import "github.com/usememos/memos/server/profile"
+import "github.com/rabithua/memos/server/profile"
 
 type SystemStatus struct {
 	Host    *User           `json:"host"`

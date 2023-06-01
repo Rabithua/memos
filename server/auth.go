@@ -7,11 +7,11 @@ import (
 	"regexp"
 
 	"github.com/pkg/errors"
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
-	"github.com/usememos/memos/plugin/idp"
-	"github.com/usememos/memos/plugin/idp/oauth2"
-	"github.com/usememos/memos/store"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
+	"github.com/rabithua/memos/plugin/idp"
+	"github.com/rabithua/memos/plugin/idp/oauth2"
+	"github.com/rabithua/memos/store"
 
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"

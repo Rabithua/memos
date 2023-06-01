@@ -3,7 +3,7 @@ package api
 import (
 	"fmt"
 
-	"github.com/usememos/memos/common"
+	"github.com/rabithua/memos/common"
 )
 
 // Role is the type of a role.

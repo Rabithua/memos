@@ -8,9 +8,9 @@ import (
 	"sort"
 
 	"github.com/pkg/errors"
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
-	"github.com/usememos/memos/store"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
+	"github.com/rabithua/memos/store"
 	"golang.org/x/exp/slices"
 
 	"github.com/labstack/echo/v4"

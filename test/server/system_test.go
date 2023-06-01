@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"github.com/pkg/errors"
+	"github.com/rabithua/memos/api"
 	"github.com/stretchr/testify/require"
-	"github.com/usememos/memos/api"
 )
 
 func TestSystemServer(t *testing.T) {

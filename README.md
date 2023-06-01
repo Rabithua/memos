@@ -9,7 +9,7 @@ A lightweight, self-hosted memo hub. Open Source and Free forever.
 Discuss in <a href="https://discord.gg/tfPJa4UmAv">Discord</a> / <a href="https://t.me/+-_tNF1k70UU4ZTc9">Telegram</a>
 
 <p>
-  <a href="https://github.com/usememos/memos/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/usememos/memos?logo=github" /></a>
+  <a href="https://github.com/rabithua/memos/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/usememos/memos?logo=github" /></a>
   <a href="https://discord.gg/tfPJa4UmAv"><img alt="Discord" src="https://img.shields.io/badge/discord-chat-5865f2?logo=discord&logoColor=f5f5f5" /></a>
 </p>
 
@@ -37,7 +37,7 @@ Learn more about [other installation methods](https://usememos.com/docs#installa
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. We greatly appreciate any contributions you make. Thank you for being a part of our community! 🥰
 
-<a href="https://github.com/usememos/memos/graphs/contributors">
+<a href="https://github.com/rabithua/memos/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=usememos/memos" />
 </a>
 

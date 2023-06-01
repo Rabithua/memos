@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	"github.com/usememos/memos/api"
+	"github.com/rabithua/memos/api"
 )
 
 func TestSetupServiceMakeSureHostUserNotExists(t *testing.T) {

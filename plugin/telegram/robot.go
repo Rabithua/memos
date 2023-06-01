@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/usememos/memos/common/log"
+	"github.com/rabithua/memos/common/log"
 	"go.uber.org/zap"
 )
 

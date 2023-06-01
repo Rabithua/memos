@@ -3,7 +3,7 @@ package store
 import (
 	"fmt"
 
-	"github.com/usememos/memos/api"
+	"github.com/rabithua/memos/api"
 )
 
 func getUserSettingCacheKey(userSetting userSettingRaw) string {

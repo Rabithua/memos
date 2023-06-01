@@ -7,8 +7,8 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/rabithua/memos/server/version"
 	"github.com/spf13/viper"
-	"github.com/usememos/memos/server/version"
 )
 
 // Profile is the configuration to start main server.

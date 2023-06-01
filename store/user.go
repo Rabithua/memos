@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
 )
 
 func (s *Store) SeedDataForNewUser(ctx context.Context, user *api.User) error {

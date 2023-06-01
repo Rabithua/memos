@@ -8,11 +8,11 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/plugin/telegram"
-	"github.com/usememos/memos/server/profile"
-	"github.com/usememos/memos/store"
-	"github.com/usememos/memos/store/db"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/plugin/telegram"
+	"github.com/rabithua/memos/server/profile"
+	"github.com/rabithua/memos/store"
+	"github.com/rabithua/memos/store/db"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

@@ -11,10 +11,10 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/usememos/memos/server"
-	"github.com/usememos/memos/server/profile"
-	"github.com/usememos/memos/store/db"
-	"github.com/usememos/memos/test"
+	"github.com/rabithua/memos/server"
+	"github.com/rabithua/memos/server/profile"
+	"github.com/rabithua/memos/store/db"
+	"github.com/rabithua/memos/test"
 
 	// sqlite3 driver.
 	_ "github.com/mattn/go-sqlite3"

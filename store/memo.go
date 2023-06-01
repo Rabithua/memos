@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/usememos/memos/common"
+	"github.com/rabithua/memos/common"
 )
 
 // Visibility is the type of a visibility.

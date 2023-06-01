@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/rabithua/memos/api"
 	"github.com/stretchr/testify/require"
-	"github.com/usememos/memos/api"
 )
 
 func TestResourceStore(t *testing.T) {

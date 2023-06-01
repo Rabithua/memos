@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
 )
 
 // resourceRaw is the store model for an Resource.
