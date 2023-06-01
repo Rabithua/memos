@@ -16,7 +16,6 @@ func (s *Store) SeedDataForNewUser(ctx context.Context, user *api.User) error {
 		CreatorID:  user.ID,
 		Content:    "#inbox Welcome to Memos!",
 		Visibility: Private,
-		Tags:       `new`,
 	})
 	if err != nil {
 		return err

@@ -43,9 +43,6 @@ type MemoResponse struct {
 	CreatorName  string          `json:"creatorName"`
 	ResourceList []*Resource     `json:"resourceList"`
 	RelationList []*MemoRelation `json:"relationList"`
-
-	// Others
-	Tags string `json:"tags"`
 }
 
 type CreateMemoRequest struct {
