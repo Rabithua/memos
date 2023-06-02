@@ -86,6 +86,7 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 		}
 
 		createMemoRequest.CreatorID = userID
+
 		memoMessage, err := s.Store.CreateMemo(ctx, convertCreateMemoRequestToMemoMessage(createMemoRequest))
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to create memo").SetInternal(err)
@@ -242,37 +243,53 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 		return c.JSON(http.StatusOK, composeResponse(memoResponse))
 	})
 
+	// 定义 GET 请求路由 "/memo"
 	g.GET("/memo", func(c echo.Context) error {
+		// 获取请求的 Context
 		ctx := c.Request().Context()
+
+		// 创建查找备忘录信息的对象
 		findMemoMessage := &store.FindMemoMessage{}
+
+		// 如果请求参数中有 creatorId，将其加入查找信息对象中
 		if userID, err := strconv.Atoi(c.QueryParam("creatorId")); err == nil {
 			findMemoMessage.CreatorID = &userID
 		}
 
+		// 获取当前用户的 ID
 		currentUserID, ok := c.Get(getUserIDContextKey()).(int)
 		if !ok {
+			// 如果没有当前用户，且没有指定 creatorId，则返回错误信息
 			if findMemoMessage.CreatorID == nil {
 				return echo.NewHTTPError(http.StatusBadRequest, "Missing user id to find memo")
 			}
+			// 否则，指定可见性为公开
 			findMemoMessage.VisibilityList = []store.Visibility{store.Public}
 		} else {
+			// 如果有当前用户
 			if findMemoMessage.CreatorID == nil {
+				// 如果没有指定 creatorId，则将当前用户的 ID 加入查找信息对象中
 				findMemoMessage.CreatorID = &currentUserID
 			} else {
+				// 否则，可见性包括公开和保护两种
 				findMemoMessage.VisibilityList = []store.Visibility{store.Public, store.Protected}
 			}
 		}
 
+		// 解析请求参数中的 rowStatus，加入查找信息对象中
 		rowStatus := store.RowStatus(c.QueryParam("rowStatus"))
 		if rowStatus != "" {
 			findMemoMessage.RowStatus = &rowStatus
 		}
+
+		// 解析请求参数中的 pinned，加入查找信息对象中
 		pinnedStr := c.QueryParam("pinned")
 		if pinnedStr != "" {
 			pinned := pinnedStr == "true"
 			findMemoMessage.Pinned = &pinned
 		}
 
+		// 解析请求参数中的 tag 和 content，拼接成搜索关键字，加入查找信息对象中
 		contentSearch := []string{}
 		tag := c.QueryParam("tag")
 		if tag != "" {
@@ -284,6 +301,7 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 		}
 		findMemoMessage.ContentSearch = contentSearch
 
+		// 解析请求参数中的 visibility，加入查找信息对象中
 		visibilityListStr := c.QueryParam("visibility")
 		if visibilityListStr != "" {
 			visibilityList := []store.Visibility{}
@@ -292,6 +310,8 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 			}
 			findMemoMessage.VisibilityList = visibilityList
 		}
+
+		// 解析请求参数中的 limit 和 offset，加入查找信息对象中
 		if limit, err := strconv.Atoi(c.QueryParam("limit")); err == nil {
 			findMemoMessage.Limit = &limit
 		}
@@ -299,6 +319,7 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 			findMemoMessage.Offset = &offset
 		}
 
+		// 获取备忘录是否显示更新时间的设置值，加入查找信息对象中
 		memoDisplayWithUpdatedTs, err := s.getMemoDisplayWithUpdatedTsSettingValue(ctx)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to get memo display with updated ts setting value").SetInternal(err)
@@ -307,10 +328,13 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 			findMemoMessage.OrderByUpdatedTs = true
 		}
 
+		// 获取符合查找信息的备忘录列表
 		memoMessageList, err := s.Store.ListMemos(ctx, findMemoMessage)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to fetch memo list").SetInternal(err)
 		}
+
+		// 将备忘录信息转化为响应对象
 		memoResponseList := []*api.MemoResponse{}
 		for _, memoMessage := range memoMessageList {
 			memoResponse, err := s.composeMemoMessageToMemoResponse(ctx, memoMessage)
@@ -319,6 +343,8 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 			}
 			memoResponseList = append(memoResponseList, memoResponse)
 		}
+
+		// 返回响应
 		return c.JSON(http.StatusOK, composeResponse(memoResponseList))
 	})
 
@@ -639,6 +665,7 @@ func (s *Server) composeMemoMessageToMemoResponse(ctx context.Context, memoMessa
 		Content:    memoMessage.Content,
 		Visibility: api.Visibility(memoMessage.Visibility.String()),
 		Pinned:     memoMessage.Pinned,
+		AiTags:     memoMessage.AiTags,
 	}
 
 	// Compose creator name.

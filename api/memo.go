@@ -38,6 +38,7 @@ type MemoResponse struct {
 	Content    string     `json:"content"`
 	Visibility Visibility `json:"visibility"`
 	Pinned     bool       `json:"pinned"`
+	AiTags     string     `json:"aiTags"`
 
 	// Related fields
 	CreatorName  string          `json:"creatorName"`
@@ -57,8 +58,6 @@ type CreateMemoRequest struct {
 	// Related fields
 	ResourceIDList []int                 `json:"resourceIdList"`
 	RelationList   []*MemoRelationUpsert `json:"relationList"`
-	
-	Tags string
 }
 
 type PatchMemoRequest struct {
