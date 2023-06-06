@@ -153,7 +153,7 @@ func (s *Server) registerAuthRoutes(g *echo.Group, secret string) {
 		userCreate := &api.UserCreate{
 			Username: signup.Username,
 			Role:     api.NormalUser,
-			Nickname: "リンク",
+			Nickname: "林克",
 			Password: signup.Password,
 		}
 

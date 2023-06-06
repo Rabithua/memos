@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -20,23 +22,68 @@ import (
 // maxContentLength means the max memo content bytes is 1MB.
 const maxContentLength = 1 << 30
 
+func getAiTags(content *string) string {
+
+	if len(*content) == 0 {
+		return ""
+	}
+
+	url := "https://www.wowow.club/api/chatgpt"
+	method := "POST"
+
+	payload := strings.NewReader(fmt.Sprintf(`{
+        "content": "%s"
+    }`, *content))
+
+	client := &http.Client{}
+	req, err := http.NewRequest(method, url, payload)
+
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	req.Header.Add("User-Agent", "Apifox/1.0.0 (https://www.apifox.cn)")
+	req.Header.Add("Content-Type", "application/json")
+
+	res, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	return string(body)
+}
+
 func (s *Server) registerMemoRoutes(g *echo.Group) {
+	// 创建备忘录的 API 接口
 	g.POST("/memo", func(c echo.Context) error {
 		ctx := c.Request().Context()
+
+		// 从请求中获取用户 ID
 		userID, ok := c.Get(getUserIDContextKey()).(int)
 		if !ok {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Missing user in session")
 		}
 
+		// 解析备忘录请求
 		createMemoRequest := &api.CreateMemoRequest{}
 		if err := json.NewDecoder(c.Request().Body).Decode(createMemoRequest); err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "Malformatted post memo request").SetInternal(err)
 		}
+
 		if len(createMemoRequest.Content) > maxContentLength {
 			return echo.NewHTTPError(http.StatusBadRequest, "Content size overflow, up to 1MB")
 		}
 
+		// 处理备忘录的可见性
 		if createMemoRequest.Visibility == "" {
+			// 从数据库中获取用户备忘录可见性设置
 			userMemoVisibilitySetting, err := s.Store.FindUserSetting(ctx, &api.UserSettingFind{
 				UserID: &userID,
 				Key:    api.UserSettingMemoVisibilityKey,
@@ -53,12 +100,12 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 				}
 				createMemoRequest.Visibility = memoVisibility
 			} else {
-				// Private is the default memo visibility.
+				// Private 是默认备忘录可见性
 				createMemoRequest.Visibility = api.Private
 			}
 		}
 
-		// Find disable public memos system setting.
+		// 检查系统设置以禁用公共备忘录
 		disablePublicMemosSystemSetting, err := s.Store.FindSystemSetting(ctx, &api.SystemSettingFind{
 			Name: api.SystemSettingDisablePublicMemosName,
 		})
@@ -72,29 +119,58 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 				return echo.NewHTTPError(http.StatusInternalServerError, "Failed to unmarshal system setting").SetInternal(err)
 			}
 			if disablePublicMemos {
+				// 检查用户角色，如果是普通用户，则强制将备忘录设置为私有
 				user, err := s.Store.FindUser(ctx, &api.UserFind{
 					ID: &userID,
 				})
 				if err != nil {
 					return echo.NewHTTPError(http.StatusInternalServerError, "Failed to find user").SetInternal(err)
 				}
-				// Enforce normal user to create private memo if public memos are disabled.
 				if user.Role == "USER" {
 					createMemoRequest.Visibility = api.Private
 				}
 			}
 		}
 
+		// 设置备忘录创建者 ID
 		createMemoRequest.CreatorID = userID
 
+		// 创建备忘录
 		memoMessage, err := s.Store.CreateMemo(ctx, convertCreateMemoRequestToMemoMessage(createMemoRequest))
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to create memo").SetInternal(err)
 		}
+		// 创建备忘录活动
 		if err := createMemoCreateActivity(c.Request().Context(), s.Store, memoMessage); err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to create activity").SetInternal(err)
 		}
 
+		// ch := make(chan struct{})
+
+		// 启动一个 Goroutine 执行异步函数
+		go func() {
+			// 创建一个新的 ctx，并使用 cancel 函数取消该 ctx
+			ctx1, cancel := context.WithTimeout(context.Background(), time.Second*10)
+			defer cancel()
+
+			Aitags := getAiTags(&memoMessage.Content)
+			fmt.Println(memoMessage.ID, Aitags)
+			// 保存aitags
+			if _, err := s.Store.UpsertMemoAiTags(ctx1, &api.MemoAiTagsUpsert{
+				MemoID: memoMessage.ID,
+				Tags:   Aitags,
+			}); err != nil {
+				log.Printf("Failed to upsert memo resource: %v", err)
+			}
+
+			// 通知异步函数执行完毕
+			// ch <- struct{}{}
+		}()
+
+		// 等待异步函数执行完毕
+		// <-ch
+
+		// 处理备忘录资源
 		for _, resourceID := range createMemoRequest.ResourceIDList {
 			if _, err := s.Store.UpsertMemoResource(ctx, &api.MemoResourceUpsert{
 				MemoID:     memoMessage.ID,
@@ -104,6 +180,7 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 			}
 		}
 
+		// 处理备忘录关系
 		for _, memoRelationUpsert := range createMemoRequest.RelationList {
 			if _, err := s.Store.UpsertMemoRelation(ctx, &store.MemoRelationMessage{
 				MemoID:        memoMessage.ID,
@@ -114,6 +191,7 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 			}
 		}
 
+		// 获取完整的备忘录信息
 		memoMessage, err = s.Store.GetMemo(ctx, &store.FindMemoMessage{
 			ID: &memoMessage.ID,
 		})
@@ -205,6 +283,25 @@ func (s *Server) registerMemoRoutes(g *echo.Group) {
 				}
 			}
 		}
+
+		go func() {
+			// 创建一个新的 ctx，并使用 cancel 函数取消该 ctx
+			ctx1, cancel := context.WithTimeout(context.Background(), time.Second*10)
+			defer cancel()
+
+			Aitags := getAiTags(&memoMessage.Content)
+			fmt.Println(memoMessage.ID, Aitags)
+			// 保存aitags
+			if _, err := s.Store.UpsertMemoAiTags(ctx1, &api.MemoAiTagsUpsert{
+				MemoID: memoMessage.ID,
+				Tags:   Aitags,
+			}); err != nil {
+				log.Printf("Failed to upsert memo resource: %v", err)
+			}
+
+			// 通知异步函数执行完毕
+			// ch <- struct{}{}
+		}()
 
 		if patchMemoRequest.RelationList != nil {
 			patchMemoRelationList := make([]*store.MemoRelationMessage, 0)
@@ -665,7 +762,6 @@ func (s *Server) composeMemoMessageToMemoResponse(ctx context.Context, memoMessa
 		Content:    memoMessage.Content,
 		Visibility: api.Visibility(memoMessage.Visibility.String()),
 		Pinned:     memoMessage.Pinned,
-		AiTags:     memoMessage.AiTags,
 	}
 
 	// Compose creator name.
@@ -697,6 +793,8 @@ func (s *Server) composeMemoMessageToMemoResponse(ctx context.Context, memoMessa
 		relationList = append(relationList, convertMemoRelationMessageToMemoRelation(relation))
 	}
 	memoResponse.RelationList = relationList
+
+	memoResponse.AiTags = memoMessage.AiTags
 
 	resourceList := []*api.Resource{}
 	for _, resourceID := range memoMessage.ResourceIDList {

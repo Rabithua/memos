@@ -70,22 +70,35 @@ func (s *Store) FindMemoResource(ctx context.Context, find *api.MemoResourceFind
 	return memoResourceRaw.toMemoResource(), nil
 }
 
+// UpsertMemoResource 插入或更新备忘录资源
+// 参数：
+//
+//	ctx：上下文对象
+//	upsert：备忘录资源插入或更新对象
+//
+// 返回值：
+//
+//	备忘录资源对象和错误信息
 func (s *Store) UpsertMemoResource(ctx context.Context, upsert *api.MemoResourceUpsert) (*api.MemoResource, error) {
+	// 开启事务
 	tx, err := s.db.BeginTx(ctx, nil)
 	if err != nil {
 		return nil, FormatError(err)
 	}
 	defer tx.Rollback()
 
+	// 插入或更新备忘录资源
 	memoResourceRaw, err := upsertMemoResource(ctx, tx, upsert)
 	if err != nil {
 		return nil, err
 	}
 
+	// 提交事务
 	if err := tx.Commit(); err != nil {
 		return nil, FormatError(err)
 	}
 
+	// 返回备忘录资源对象
 	return memoResourceRaw.toMemoResource(), nil
 }
 
