@@ -25,7 +25,7 @@ const maxContentLength = 1 << 30
 func getAiTags(content *string) string {
 
 	if len(*content) == 0 {
-		return ""
+		return "[]"
 	}
 
 	url := "https://www.wowow.club/api/chatgpt"
@@ -40,7 +40,7 @@ func getAiTags(content *string) string {
 
 	if err != nil {
 		fmt.Println(err)
-		return ""
+		return "[]"
 	}
 	req.Header.Add("User-Agent", "Apifox/1.0.0 (https://www.apifox.cn)")
 	req.Header.Add("Content-Type", "application/json")
@@ -48,14 +48,18 @@ func getAiTags(content *string) string {
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
-		return ""
+		return "[]"
 	}
 	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return "[]"
+	}
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return ""
+		return "[]"
 	}
 	return string(body)
 }

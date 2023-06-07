@@ -111,10 +111,9 @@ func (s *Store) CreateMemo(ctx context.Context, create *MemoMessage) (*MemoMessa
 			creator_id,
 			created_ts,
 			content,
-			visibility,
-			aitags
+			visibility
 		)
-		VALUES (?, ?, ?, ?, ?)
+		VALUES (?, ?, ?, ?)
 		RETURNING id, created_ts, updated_ts, row_status
 	`
 	if err := tx.QueryRowContext(
@@ -124,7 +123,6 @@ func (s *Store) CreateMemo(ctx context.Context, create *MemoMessage) (*MemoMessa
 		create.CreatedTs,
 		create.Content,
 		create.Visibility,
-		create.AiTags,
 	).Scan(
 		&create.ID, // 扫描查询结果返回的列
 		&create.CreatedTs,
