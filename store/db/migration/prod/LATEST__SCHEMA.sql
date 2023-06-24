@@ -131,3 +131,10 @@ CREATE TABLE memo_relation (
   type TEXT NOT NULL,
   UNIQUE(memo_id, related_memo_id, type)
 );
+
+-- memo_aitags
+CREATE TABLE memo_aitags (
+  memo_id INTEGER PRIMARY KEY NOT NULL,
+  tags TEXT NOT NULL,
+  UNIQUE(memo_id)
+);

@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/rabithua/memos/store"
 	"github.com/stretchr/testify/require"
-	"github.com/usememos/memos/store"
 )
 
 func TestMemoStore(t *testing.T) {

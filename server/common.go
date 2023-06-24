@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
 )
 
 type response struct {

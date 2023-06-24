@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/store"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/store"
 
 	"github.com/labstack/echo/v4"
 )

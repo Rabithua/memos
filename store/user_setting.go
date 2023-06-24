@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"strings"
 
-	"github.com/usememos/memos/api"
+	"github.com/rabithua/memos/api"
 )
 
 type userSettingRaw struct {

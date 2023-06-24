@@ -1,6 +1,6 @@
 package parser
 
-import "github.com/usememos/memos/plugin/gomark/parser/tokenizer"
+import "github.com/rabithua/memos/plugin/gomark/parser/tokenizer"
 
 type ItalicParser struct {
 	ContentTokens []*tokenizer.Token

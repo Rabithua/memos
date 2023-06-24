@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"sync"
 
-	"github.com/usememos/memos/server/profile"
+	"github.com/rabithua/memos/server/profile"
 )
 
 // Store provides database access to all raw objects.

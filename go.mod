@@ -1,4 +1,4 @@
-module github.com/usememos/memos
+module github.com/rabithua/memos
 
 go 1.19
 

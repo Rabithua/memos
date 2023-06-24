@@ -37,10 +37,11 @@ export function signinWithSSO(identityProviderId: IdentityProviderId, code: stri
   });
 }
 
-export function signup(username: string, password: string) {
+export function signup(username: string, password: string, openid?: string) {
   return axios.post("/api/v1/auth/signup", {
     username,
     password,
+    openid,
   });
 }
 

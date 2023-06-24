@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/usememos/memos/common"
+	"github.com/rabithua/memos/common"
 )
 
 // Visibility is the type of a visibility.
@@ -35,6 +35,11 @@ func (v Visibility) String() string {
 	return "PRIVATE"
 }
 
+type AiTagsMessage struct {
+	MemoID int
+	Tags   string
+}
+
 type MemoMessage struct {
 	ID int
 
@@ -47,6 +52,7 @@ type MemoMessage struct {
 	// Domain specific fields
 	Content    string
 	Visibility Visibility
+	AiTags     string
 
 	// Composed fields
 	Pinned         bool
@@ -86,16 +92,20 @@ type DeleteMemoMessage struct {
 }
 
 func (s *Store) CreateMemo(ctx context.Context, create *MemoMessage) (*MemoMessage, error) {
+	// 开始一个数据库事务
 	tx, err := s.db.BeginTx(ctx, nil)
 	if err != nil {
 		return nil, FormatError(err)
 	}
+	// 当函数结束时回滚事务
 	defer tx.Rollback()
 
+	// 如果创建时间为空，则设置为当前时间戳
 	if create.CreatedTs == 0 {
 		create.CreatedTs = time.Now().Unix()
 	}
 
+	// SQL 插入语句，返回插入的行的 id, created_ts, updated_ts, row_status 列的值
 	query := `
 		INSERT INTO memo (
 			creator_id,
@@ -114,27 +124,34 @@ func (s *Store) CreateMemo(ctx context.Context, create *MemoMessage) (*MemoMessa
 		create.Content,
 		create.Visibility,
 	).Scan(
-		&create.ID,
+		&create.ID, // 扫描查询结果返回的列
 		&create.CreatedTs,
 		&create.UpdatedTs,
 		&create.RowStatus,
 	); err != nil {
 		return nil, FormatError(err)
 	}
+	// 提交事务
 	if err := tx.Commit(); err != nil {
 		return nil, FormatError(err)
 	}
+	// 返回插入的消息
 	memoMessage := create
 	return memoMessage, nil
 }
 
+// ListMemos 从数据库中获取符合条件的备忘录列表
+// 参数ctx为上下文，find为查找备忘录的条件
+// 函数返回符合条件的备忘录列表以及可能的错误
 func (s *Store) ListMemos(ctx context.Context, find *FindMemoMessage) ([]*MemoMessage, error) {
+	// 开启一个事务
 	tx, err := s.db.BeginTx(ctx, nil)
 	if err != nil {
 		return nil, FormatError(err)
 	}
 	defer tx.Rollback()
 
+	// 调用listMemos函数获取备忘录列表
 	list, err := listMemos(ctx, tx, find)
 	if err != nil {
 		return nil, err
@@ -206,8 +223,15 @@ func (s *Store) DeleteMemo(ctx context.Context, delete *DeleteMemoMessage) error
 	}
 	defer tx.Rollback()
 
-	where, args := []string{"id = ?"}, []any{delete.ID}
-	stmt := `DELETE FROM memo WHERE ` + strings.Join(where, " AND ")
+	where := []string{"id = ?"}
+	args := []any{delete.ID}
+
+	where_aitags := []string{"memo_id = ?"}
+	args = append(args, delete.ID)
+
+	stmt := `DELETE FROM memo WHERE ` + strings.Join(where, " AND ") + `;
+	         DELETE FROM memo_aitags WHERE ` + strings.Join(where_aitags, " AND ")
+
 	result, err := tx.ExecContext(ctx, stmt, args...)
 	if err != nil {
 		return FormatError(err)
@@ -268,25 +292,32 @@ func (s *Store) FindMemosVisibilityList(ctx context.Context, memoIDs []int) ([]V
 }
 
 func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoMessage, error) {
+	// 初始化查询条件和参数
 	where, args := []string{"1 = 1"}, []any{}
 
+	// 根据 ID 进行查找
 	if v := find.ID; v != nil {
 		where, args = append(where, "memo.id = ?"), append(args, *v)
 	}
+	// 根据创建者 ID 进行查找
 	if v := find.CreatorID; v != nil {
 		where, args = append(where, "memo.creator_id = ?"), append(args, *v)
 	}
+	// 根据行状态进行查找
 	if v := find.RowStatus; v != nil {
 		where, args = append(where, "memo.row_status = ?"), append(args, *v)
 	}
+	// 是否按置顶排序
 	if v := find.Pinned; v != nil {
 		where = append(where, "memo_organizer.pinned = 1")
 	}
+	// 根据内容关键词进行查找
 	if v := find.ContentSearch; len(v) != 0 {
 		for _, s := range v {
 			where, args = append(where, "memo.content LIKE ?"), append(args, "%"+s+"%")
 		}
 	}
+	// 根据可见性列表进行查找
 	if v := find.VisibilityList; len(v) != 0 {
 		list := []string{}
 		for _, visibility := range v {
@@ -295,6 +326,8 @@ func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoM
 		}
 		where = append(where, fmt.Sprintf("memo.visibility in (%s)", strings.Join(list, ",")))
 	}
+
+	// 初始化排序条件
 	orders := []string{"pinned DESC"}
 	if find.OrderByUpdatedTs {
 		orders = append(orders, "updated_ts DESC")
@@ -302,6 +335,7 @@ func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoM
 		orders = append(orders, "created_ts DESC")
 	}
 
+	// 准备 SQL 查询语句
 	query := `
 	SELECT
 		memo.id AS id,
@@ -313,6 +347,7 @@ func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoM
 		memo.visibility AS visibility,
 		CASE WHEN memo_organizer.pinned = 1 THEN 1 ELSE 0 END AS pinned,
 		GROUP_CONCAT(memo_resource.resource_id) AS resource_id_list,
+		GROUP_CONCAT(memo_aitags.tags) AS aitags,
 		(
 				SELECT
 						GROUP_CONCAT(related_memo_id || ':' || type)
@@ -329,10 +364,14 @@ func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoM
 		memo_organizer ON memo.id = memo_organizer.memo_id
 	LEFT JOIN
 		memo_resource ON memo.id = memo_resource.memo_id
+	LEFT JOIN
+		memo_aitags ON memo.id = memo_aitags.memo_id
+
 	WHERE ` + strings.Join(where, " AND ") + `
 	GROUP BY memo.id
 	ORDER BY ` + strings.Join(orders, ", ") + `
 	`
+	// 限制查询结果数量
 	if find.Limit != nil {
 		query = fmt.Sprintf("%s LIMIT %d", query, *find.Limit)
 		if find.Offset != nil {
@@ -340,17 +379,21 @@ func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoM
 		}
 	}
 
+	// 执行 SQL 查询语句
 	rows, err := tx.QueryContext(ctx, query, args...)
 	if err != nil {
 		return nil, FormatError(err)
 	}
 	defer rows.Close()
 
+	// 解析查询结果
 	memoMessageList := make([]*MemoMessage, 0)
 	for rows.Next() {
 		var memoMessage MemoMessage
 		var memoResourceIDList sql.NullString
 		var memoRelationList sql.NullString
+		var memoAiTagsList sql.NullString
+
 		if err := rows.Scan(
 			&memoMessage.ID,
 			&memoMessage.CreatorID,
@@ -361,34 +404,63 @@ func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoM
 			&memoMessage.Visibility,
 			&memoMessage.Pinned,
 			&memoResourceIDList,
+			&memoAiTagsList,
 			&memoRelationList,
 		); err != nil {
 			return nil, FormatError(err)
 		}
 
+		// 解析备忘录中的资源 ID
+		// 判断 memoResourceIDList 是否合法
 		if memoResourceIDList.Valid {
+			// 如果合法，将字符串按逗号分隔成字符串列表
 			idStringList := strings.Split(memoResourceIDList.String, ",")
+			// 初始化 memoMessage 的 ResourceIDList，设置容量为 idStringList 的长度
 			memoMessage.ResourceIDList = make([]int, 0, len(idStringList))
+			// 遍历 idStringList
 			for _, idString := range idStringList {
+				// 将字符串转换为整数
 				id, err := strconv.Atoi(idString)
+				// 如果转换失败，返回错误信息
 				if err != nil {
 					return nil, FormatError(err)
 				}
+				// 将转换后的整数添加到 memoMessage 的 ResourceIDList 中
 				memoMessage.ResourceIDList = append(memoMessage.ResourceIDList, id)
 			}
 		}
+
+		if memoAiTagsList.Valid {
+			// 初始化备忘录消息的关联备忘录列表
+			memoMessage.AiTags = memoAiTagsList.String
+		}
+
+		// 解析备忘录中的关系列表
+		// 如果memoRelationList.Valid为真，则表示关联备忘录列表有效
 		if memoRelationList.Valid {
+			// 初始化备忘录消息的关联备忘录列表
 			memoMessage.RelationList = make([]*MemoRelationMessage, 0)
+
+			// 将关联备忘录类型列表按逗号分隔
 			relatedMemoTypeList := strings.Split(memoRelationList.String, ",")
+
+			// 遍历关联备忘录类型列表
 			for _, relatedMemoType := range relatedMemoTypeList {
+				// 将关联备忘录类型按冒号分隔
 				relatedMemoTypeList := strings.Split(relatedMemoType, ":")
+
+				// 如果关联备忘录类型列表长度不为2，则返回无效错误
 				if len(relatedMemoTypeList) != 2 {
 					return nil, &common.Error{Code: common.Invalid, Err: fmt.Errorf("invalid relation format")}
 				}
+
+				// 将关联备忘录ID转换为整数类型
 				relatedMemoID, err := strconv.Atoi(relatedMemoTypeList[0])
 				if err != nil {
 					return nil, FormatError(err)
 				}
+
+				// 将关联备忘录信息添加到备忘录消息的关联备忘录列表中
 				memoMessage.RelationList = append(memoMessage.RelationList, &MemoRelationMessage{
 					MemoID:        memoMessage.ID,
 					RelatedMemoID: relatedMemoID,
@@ -396,6 +468,7 @@ func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoM
 				})
 			}
 		}
+
 		memoMessageList = append(memoMessageList, &memoMessage)
 	}
 

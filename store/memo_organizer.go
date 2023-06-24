@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
 )
 
 // memoOrganizerRaw is the store model for an MemoOrganizer.

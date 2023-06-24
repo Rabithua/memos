@@ -3,7 +3,7 @@
 
 # For more details on setting-up a development environment, check the docs:
 # * https://usememos.com/docs/contribution/development
-# * https://github.com/usememos/memos/blob/main/docs/development.md
+# * https://github.com/rabithua/memos/blob/main/docs/development.md
 
 # Usage: ./scripts/start.ps1
 

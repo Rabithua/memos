@@ -8,9 +8,9 @@ import (
 	"testing"
 
 	"github.com/pkg/errors"
+	"github.com/rabithua/memos/api"
+	apiv1 "github.com/rabithua/memos/api/v1"
 	"github.com/stretchr/testify/require"
-	"github.com/usememos/memos/api"
-	apiv1 "github.com/usememos/memos/api/v1"
 )
 
 func TestMemoRelationServer(t *testing.T) {

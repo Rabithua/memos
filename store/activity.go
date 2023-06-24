@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/usememos/memos/api"
+	"github.com/rabithua/memos/api"
 )
 
 // activityRaw is the store model for an Activity.

@@ -225,6 +225,7 @@ const ResourcesDashboard = () => {
               </Button>
             )}
             <Button
+              color="primary"
               onClick={() =>
                 showCreateResourceDialog({
                   onConfirm: () => {
@@ -307,7 +308,7 @@ const ResourcesDashboard = () => {
           <div className="flex flex-col justify-start items-center w-full">
             <p className="text-sm text-gray-400 italic">
               {!isComplete && (
-                <span className="cursor-pointer my-6 hover:text-green-600" onClick={handleFetchMoreResourceBtnClick}>
+                <span className="cursor-pointer my-6 hover:text-emerald-600" onClick={handleFetchMoreResourceBtnClick}>
                   {t("memo.fetch-more")}
                 </span>
               )}

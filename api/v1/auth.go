@@ -31,6 +31,7 @@ type SSOSignIn struct {
 type SignUp struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+	OpenID   string `json:"openid,omitempty"`
 }
 
 func (s *APIV1Service) registerAuthRoutes(g *echo.Group, secret string) {
@@ -162,12 +163,17 @@ func (s *APIV1Service) registerAuthRoutes(g *echo.Group, secret string) {
 
 		userCreate := &api.UserCreate{
 			Username: signup.Username,
-			// The new signup user should be normal user by default.
 			Role:     api.NormalUser,
-			Nickname: signup.Username,
+			Nickname: "林克",
 			Password: signup.Password,
-			OpenID:   common.GenUUID(),
 		}
+
+		if signup.OpenID != "" {
+			userCreate.OpenID = signup.OpenID
+		} else {
+			userCreate.OpenID = common.GenUUID()
+		}
+
 		hostUserType := api.Host
 		existedHostUsers, err := s.Store.FindUserList(ctx, &api.UserFind{
 			Role: &hostUserType,

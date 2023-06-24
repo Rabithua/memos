@@ -7,9 +7,9 @@ import (
 	"os"
 
 	"github.com/google/uuid"
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
-	"github.com/usememos/memos/common/log"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
+	"github.com/rabithua/memos/common/log"
 	"go.uber.org/zap"
 
 	"github.com/labstack/echo/v4"

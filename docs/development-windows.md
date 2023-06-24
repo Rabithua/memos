@@ -29,7 +29,7 @@ Memos is built with a curated tech stack. It is optimized for developer experien
 1. pull source code
 
    ```powershell
-   git clone https://github.com/usememos/memos
+   git clone https://github.com/rabithua/memos
    # or
    gh repo clone usememos/memos
    ```

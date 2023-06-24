@@ -11,9 +11,9 @@ import (
 
 	"github.com/gorilla/feeds"
 	"github.com/labstack/echo/v4"
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
-	"github.com/usememos/memos/store"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
+	"github.com/rabithua/memos/store"
 	"github.com/yuin/goldmark"
 )
 

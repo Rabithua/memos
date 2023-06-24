@@ -10,10 +10,10 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/rabithua/memos/plugin/idp"
+	"github.com/rabithua/memos/store"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/usememos/memos/plugin/idp"
-	"github.com/usememos/memos/store"
 )
 
 func TestNewIdentityProvider(t *testing.T) {

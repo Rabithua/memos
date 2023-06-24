@@ -3,8 +3,8 @@ package parser
 import (
 	"testing"
 
+	"github.com/rabithua/memos/plugin/gomark/parser/tokenizer"
 	"github.com/stretchr/testify/require"
-	"github.com/usememos/memos/plugin/gomark/parser/tokenizer"
 )
 
 func TestImageParser(t *testing.T) {

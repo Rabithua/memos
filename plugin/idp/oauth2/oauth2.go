@@ -9,8 +9,8 @@ import (
 	"net/http"
 
 	"github.com/pkg/errors"
-	"github.com/usememos/memos/plugin/idp"
-	"github.com/usememos/memos/store"
+	"github.com/rabithua/memos/plugin/idp"
+	"github.com/rabithua/memos/store"
 	"golang.org/x/oauth2"
 )
 

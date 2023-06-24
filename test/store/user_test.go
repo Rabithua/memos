@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/store"
 	"github.com/stretchr/testify/require"
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/store"
 	"golang.org/x/crypto/bcrypt"
 )
 

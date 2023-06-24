@@ -2,7 +2,7 @@
 # This is only for local builds.
 
 # For development, setup a proper environment as described here:
-# https://github.com/usememos/memos/blob/main/docs/development.md
+# https://github.com/rabithua/memos/blob/main/docs/development.md
 
 $projectRoot = (Resolve-Path "$MyInvocation.MyCommand.Path/..").Path
 Write-Host "Project root: $projectRoot"

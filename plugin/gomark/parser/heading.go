@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"github.com/usememos/memos/plugin/gomark/parser/tokenizer"
+	"github.com/rabithua/memos/plugin/gomark/parser/tokenizer"
 )
 
 type HeadingParser struct {

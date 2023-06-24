@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/usememos/memos/common"
+	"github.com/rabithua/memos/common"
 )
 
 type IdentityProviderType string

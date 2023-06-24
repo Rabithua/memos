@@ -55,12 +55,12 @@ const Header = () => {
                 id="header-home"
                 className={({ isActive }) =>
                   `${
-                    isActive && "bg-white dark:bg-zinc-700 shadow"
-                  } px-4 pr-5 py-2 rounded-full flex flex-row items-center text-lg text-gray-800 dark:text-gray-300 hover:bg-white hover:shadow dark:hover:bg-zinc-700`
+                    isActive && "bg-emerald-500 !text-white dark:bg-emerald-800 "
+                  } px-4 pr-5 py-2 rounded-lg flex flex-row items-center text-lg text-gray-800 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-800`
                 }
               >
                 <>
-                  <Icon.Home className="mr-3 w-6 h-auto opacity-70" /> {t("common.home")}
+                  <Icon.Home className="mr-3 w-6 h-auto" /> {t("common.home")}
                 </>
               </NavLink>
               <NavLink
@@ -68,8 +68,8 @@ const Header = () => {
                 id="header-review"
                 className={({ isActive }) =>
                   `${
-                    isActive && "bg-white dark:bg-zinc-700 shadow"
-                  } px-4 pr-5 py-2 rounded-full flex flex-row items-center text-lg text-gray-800 dark:text-gray-300 hover:bg-white hover:shadow dark:hover:bg-zinc-700`
+                    isActive && "bg-emerald-500 !text-white dark:bg-emerald-800 "
+                  } px-4 pr-5 py-2 rounded-lg flex flex-row items-center text-lg text-gray-800 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-800`
                 }
               >
                 <>
@@ -81,8 +81,8 @@ const Header = () => {
                 id="header-resources"
                 className={({ isActive }) =>
                   `${
-                    isActive && "bg-white dark:bg-zinc-700 shadow"
-                  } px-4 pr-5 py-2 rounded-full flex flex-row items-center text-lg text-gray-800 dark:text-gray-300 hover:bg-white hover:shadow dark:hover:bg-zinc-700`
+                    isActive && "bg-emerald-500 !text-white dark:bg-emerald-800 "
+                  } px-4 pr-5 py-2 rounded-lg flex flex-row items-center text-lg text-gray-800 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-800`
                 }
               >
                 <>
@@ -96,8 +96,8 @@ const Header = () => {
             id="header-explore"
             className={({ isActive }) =>
               `${
-                isActive && "bg-white dark:bg-zinc-700 shadow"
-              } px-4 pr-5 py-2 rounded-full flex flex-row items-center text-lg text-gray-800 dark:text-gray-300 hover:bg-white hover:shadow dark:hover:bg-zinc-700`
+                isActive && "bg-emerald-500 !text-white dark:bg-emerald-800 "
+              } px-4 pr-5 py-2 rounded-lg flex flex-row items-center text-lg text-gray-800 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-800`
             }
           >
             <>
@@ -150,8 +150,8 @@ const Header = () => {
                 id="header-auth"
                 className={({ isActive }) =>
                   `${
-                    isActive && "bg-white dark:bg-zinc-700 shadow"
-                  } px-4 pr-5 py-2 rounded-full flex flex-row items-center text-lg text-gray-800 dark:text-gray-300 hover:bg-white hover:shadow dark:hover:bg-zinc-700`
+                    isActive && "bg-emerald-500 !text-white dark:bg-emerald-800 "
+                  } px-4 pr-5 py-2 rounded-lg flex flex-row items-center text-lg text-gray-800 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-800`
                 }
               >
                 <>

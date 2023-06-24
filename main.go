@@ -3,7 +3,7 @@ package main
 import (
 	_ "modernc.org/sqlite"
 
-	"github.com/usememos/memos/cmd"
+	"github.com/rabithua/memos/cmd"
 )
 
 func main() {

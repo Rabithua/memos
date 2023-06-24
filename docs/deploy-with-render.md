@@ -4,7 +4,7 @@ written by [AJ](https://memos.ajstephens.website/) (also a noob)
 
 <img height="64px" src="https://usememos.com/logo-full.png" alt="✍️ memos" />
 
-[Live Demo](https://demo.usememos.com) • [Official Website](https://usememos.com) • [Source Code](https://github.com/usememos/memos)
+[Live Demo](https://demo.usememos.com) • [Official Website](https://usememos.com) • [Source Code](https://github.com/rabithua/memos)
 
 ## Who is this guide for?
 
@@ -40,7 +40,7 @@ Create an account at [Render](https://dashboard.render.com/register)
 
 3. Scroll down to "Public Git repository"
 
-4. Paste in the link for the public git repository for memos (https://github.com/usememos/memos) and press continue
+4. Paste in the link for the public git repository for memos (https://github.com/rabithua/memos) and press continue
 
    ![ss3](https://i.imgur.com/OXoCWoJ.png)
 

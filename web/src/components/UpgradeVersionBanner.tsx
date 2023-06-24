@@ -43,11 +43,11 @@ const UpgradeVersionView: React.FC = () => {
   if (!state.show) return null;
 
   return (
-    <div className="flex flex-row justify-center items-center w-full py-2 px-2">
+    <div className="flex flex-row items-center justify-center w-full py-2 text-white bg-emerald-600">
       <a
         className="flex flex-row justify-start items-center text-sm break-all text-green-600 hover:underline"
         target="_blank"
-        href="https://github.com/usememos/memos/releases"
+        href="https://github.com/rabithua/memos/releases"
       >
         ✨ New version: v{state.latestVersion}
       </a>

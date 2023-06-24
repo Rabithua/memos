@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/usememos/memos/api"
-	"github.com/usememos/memos/common"
-	"github.com/usememos/memos/plugin/openai"
+	"github.com/rabithua/memos/api"
+	"github.com/rabithua/memos/common"
+	"github.com/rabithua/memos/plugin/openai"
 )
 
 func (s *Server) registerOpenAIRoutes(g *echo.Group) {
