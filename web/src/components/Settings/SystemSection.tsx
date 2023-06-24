@@ -12,7 +12,6 @@ import "@/less/settings/system-section.less";
 interface State {
   dbSize: number;
   allowSignUp: boolean;
-  ignoreUpgrade: boolean;
   disablePublicMemos: boolean;
   additionalStyle: string;
   additionalScript: string;
@@ -27,14 +26,13 @@ const SystemSection = () => {
   const [state, setState] = useState<State>({
     dbSize: systemStatus.dbSize,
     allowSignUp: systemStatus.allowSignUp,
-    ignoreUpgrade: systemStatus.ignoreUpgrade,
     additionalStyle: systemStatus.additionalStyle,
     additionalScript: systemStatus.additionalScript,
     disablePublicMemos: systemStatus.disablePublicMemos,
     maxUploadSizeMiB: systemStatus.maxUploadSizeMiB,
     memoDisplayWithUpdatedTs: systemStatus.memoDisplayWithUpdatedTs,
   });
-  const [telegramRobotToken, setTelegramRobotToken] = useState<string>("");
+  const [telegramBotToken, setTelegramBotToken] = useState<string>("");
   const [openAIConfig, setOpenAIConfig] = useState<OpenAIConfig>({
     key: "",
     host: "",
@@ -51,9 +49,9 @@ const SystemSection = () => {
         setOpenAIConfig(JSON.parse(openAIConfigSetting.value));
       }
 
-      const telegramRobotSetting = systemSettings.find((setting) => setting.name === "telegram-robot-token");
-      if (telegramRobotSetting) {
-        setTelegramRobotToken(telegramRobotSetting.value);
+      const telegramBotSetting = systemSettings.find((setting) => setting.name === "telegram-bot-token");
+      if (telegramBotSetting) {
+        setTelegramBotToken(telegramBotSetting.value);
       }
     });
   }, []);
@@ -76,19 +74,9 @@ const SystemSection = () => {
       ...state,
       allowSignUp: value,
     });
+    globalStore.setSystemStatus({ allowSignUp: value });
     await api.upsertSystemSetting({
       name: "allow-signup",
-      value: JSON.stringify(value),
-    });
-  };
-
-  const handleIgnoreUpgradeChanged = async (value: boolean) => {
-    setState({
-      ...state,
-      ignoreUpgrade: value,
-    });
-    await api.upsertSystemSetting({
-      name: "ignore-upgrade",
       value: JSON.stringify(value),
     });
   };
@@ -135,22 +123,22 @@ const SystemSection = () => {
     toast.success("OpenAI Config updated");
   };
 
-  const handleTelegramRobotTokenChanged = (value: string) => {
-    setTelegramRobotToken(value);
+  const handleTelegramBotTokenChanged = (value: string) => {
+    setTelegramBotToken(value);
   };
 
-  const handleSaveTelegramRobotToken = async () => {
+  const handleSaveTelegramBotToken = async () => {
     try {
       await api.upsertSystemSetting({
-        name: "telegram-robot-token",
-        value: telegramRobotToken,
+        name: "telegram-bot-token",
+        value: telegramBotToken,
       });
     } catch (error: any) {
       console.error(error);
       toast.error(error.response.data.message);
       return;
     }
-    toast.success("OpenAI Config updated");
+    toast.success("Telegram Bot Token updated");
   };
 
   const handleAdditionalStyleChanged = (value: string) => {
@@ -210,7 +198,7 @@ const SystemSection = () => {
       ...state,
       memoDisplayWithUpdatedTs: value,
     });
-    globalStore.setSystemStatus({ disablePublicMemos: value });
+    globalStore.setSystemStatus({ memoDisplayWithUpdatedTs: value });
     await api.upsertSystemSetting({
       name: "memo-display-with-updated-ts",
       value: JSON.stringify(value),
@@ -262,10 +250,6 @@ const SystemSection = () => {
         <Switch checked={state.allowSignUp} onChange={(event) => handleAllowSignUpChanged(event.target.checked)} />
       </div>
       <div className="form-label">
-        <span className="normal-text">{t("setting.system-section.ignore-version-upgrade")}</span>
-        <Switch checked={state.ignoreUpgrade} onChange={(event) => handleIgnoreUpgradeChanged(event.target.checked)} />
-      </div>
-      <div className="form-label">
         <span className="normal-text">{t("setting.system-section.disable-public-memos")}</span>
         <Switch checked={state.disablePublicMemos} onChange={(event) => handleDisablePublicMemosChanged(event.target.checked)} />
       </div>
@@ -292,11 +276,14 @@ const SystemSection = () => {
       <div className="form-label">
         <div className="flex flex-row items-center">
           <div className="w-auto flex items-center">
-            <span className="text-sm mr-1">{t("setting.system-section.telegram-robot-token")}</span>
-            <HelpButton icon="help" url="https://usememos.com/docs/integration/telegram-bot" />
+            <span className="text-sm mr-1">{t("setting.system-section.telegram-bot-token")}</span>
+            <HelpButton
+              hint={t("setting.system-section.telegram-bot-token-description")}
+              url="https://usememos.com/docs/integration/telegram-bot"
+            />
           </div>
         </div>
-        <Button onClick={handleSaveTelegramRobotToken}>{t("common.save")}</Button>
+        <Button onClick={handleSaveTelegramBotToken}>{t("common.save")}</Button>
       </div>
       <Input
         className="w-full"
@@ -304,9 +291,9 @@ const SystemSection = () => {
           fontFamily: "monospace",
           fontSize: "14px",
         }}
-        placeholder={t("setting.system-section.telegram-robot-token-placeholder")}
-        value={telegramRobotToken}
-        onChange={(event) => handleTelegramRobotTokenChanged(event.target.value)}
+        placeholder={t("setting.system-section.telegram-bot-token-placeholder")}
+        value={telegramBotToken}
+        onChange={(event) => handleTelegramBotTokenChanged(event.target.value)}
       />
       <Divider className="!mt-3 !my-4" />
       <div className="form-label">

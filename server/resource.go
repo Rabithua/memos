@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"mime"
 	"net/http"
 	"net/url"
 	"os"
@@ -55,9 +56,46 @@ func (s *Server) registerResourceRoutes(g *echo.Group) {
 		}
 
 		resourceCreate.CreatorID = userID
-		// Only allow those external links with http prefix.
-		if resourceCreate.ExternalLink != "" && !strings.HasPrefix(resourceCreate.ExternalLink, "http") {
-			return echo.NewHTTPError(http.StatusBadRequest, "Invalid external link")
+		if resourceCreate.ExternalLink != "" {
+			// Only allow those external links scheme with http/https
+			linkURL, err := url.Parse(resourceCreate.ExternalLink)
+			if err != nil {
+				return echo.NewHTTPError(http.StatusBadRequest, "Invalid external link").SetInternal(err)
+			}
+			if linkURL.Scheme != "http" && linkURL.Scheme != "https" {
+				return echo.NewHTTPError(http.StatusBadRequest, "Invalid external link scheme")
+			}
+
+			if resourceCreate.DownloadToLocal {
+				resp, err := http.Get(linkURL.String())
+				if err != nil {
+					return echo.NewHTTPError(http.StatusBadRequest, "Failed to request "+resourceCreate.ExternalLink)
+				}
+				defer resp.Body.Close()
+
+				blob, err := io.ReadAll(resp.Body)
+				if err != nil {
+					return echo.NewHTTPError(http.StatusBadRequest, "Failed to read "+resourceCreate.ExternalLink)
+				}
+				resourceCreate.Blob = blob
+
+				mediaType, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+				if err != nil {
+					return echo.NewHTTPError(http.StatusBadRequest, "Failed to read mime from "+resourceCreate.ExternalLink)
+				}
+				resourceCreate.Type = mediaType
+
+				filename := path.Base(linkURL.Path)
+				if path.Ext(filename) == "" {
+					extensions, _ := mime.ExtensionsByType(mediaType)
+					if len(extensions) > 0 {
+						filename += extensions[0]
+					}
+				}
+				resourceCreate.Filename = filename
+				resourceCreate.PublicID = common.GenUUID()
+				resourceCreate.ExternalLink = ""
+			}
 		}
 
 		resource, err := s.Store.CreateResource(ctx, resourceCreate)
@@ -356,6 +394,18 @@ func (s *Server) registerResourcePublicRoutes(g *echo.Group) {
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("ID is not a number: %s", c.Param("resourceId"))).SetInternal(err)
 		}
+
+		resourceVisibility, err := CheckResourceVisibility(ctx, s.Store, resourceID)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, "Failed to get resource visibility").SetInternal(err)
+		}
+
+		// Protected resource require a logined user
+		userID, ok := c.Get(getUserIDContextKey()).(int)
+		if resourceVisibility == store.Protected && (!ok || userID <= 0) {
+			return echo.NewHTTPError(http.StatusUnauthorized, "Resource visibility not match").SetInternal(err)
+		}
+
 		publicID, err := url.QueryUnescape(c.Param("publicId"))
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("publicID is invalid: %s", c.Param("publicId"))).SetInternal(err)
@@ -368,6 +418,11 @@ func (s *Server) registerResourcePublicRoutes(g *echo.Group) {
 		resource, err := s.Store.FindResource(ctx, resourceFind)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("Failed to find resource by ID: %v", resourceID)).SetInternal(err)
+		}
+
+		// Private resource require logined user is the creator
+		if resourceVisibility == store.Private && (!ok || userID != resource.CreatorID) {
+			return echo.NewHTTPError(http.StatusUnauthorized, "Resource visibility not match").SetInternal(err)
 		}
 
 		blob := resource.Blob
@@ -401,6 +456,18 @@ func (s *Server) registerResourcePublicRoutes(g *echo.Group) {
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("ID is not a number: %s", c.Param("resourceId"))).SetInternal(err)
 		}
+
+		resourceVisibility, err := CheckResourceVisibility(ctx, s.Store, resourceID)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, "Failed to get resource visibility").SetInternal(err)
+		}
+
+		// Protected resource require a logined user
+		userID, ok := c.Get(getUserIDContextKey()).(int)
+		if resourceVisibility == store.Protected && (!ok || userID <= 0) {
+			return echo.NewHTTPError(http.StatusUnauthorized, "Resource visibility not match").SetInternal(err)
+		}
+
 		publicID, err := url.QueryUnescape(c.Param("publicId"))
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("publicID is invalid: %s", c.Param("publicId"))).SetInternal(err)
@@ -418,6 +485,11 @@ func (s *Server) registerResourcePublicRoutes(g *echo.Group) {
 		resource, err := s.Store.FindResource(ctx, resourceFind)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("Failed to find resource by ID: %v", resourceID)).SetInternal(err)
+		}
+
+		// Private resource require logined user is the creator
+		if resourceVisibility == store.Private && (!ok || userID != resource.CreatorID) {
+			return echo.NewHTTPError(http.StatusUnauthorized, "Resource visibility not match").SetInternal(err)
 		}
 
 		blob := resource.Blob
@@ -551,4 +623,49 @@ func getOrGenerateThumbnailImage(srcBlob []byte, dstPath string) ([]byte, error)
 		return nil, errors.Wrap(err, "failed to read the local resource")
 	}
 	return dstBlob, nil
+}
+
+func CheckResourceVisibility(ctx context.Context, s *store.Store, resourceID int) (store.Visibility, error) {
+	memoResourceFind := &api.MemoResourceFind{
+		ResourceID: &resourceID,
+	}
+
+	memoResources, err := s.FindMemoResourceList(ctx, memoResourceFind)
+	if err != nil {
+		return store.Private, err
+	}
+
+	// If resource is belongs to no memo, it'll always PRIVATE
+	if len(memoResources) == 0 {
+		return store.Private, nil
+	}
+
+	memoIDs := make([]int, 0, len(memoResources))
+	for _, memoResource := range memoResources {
+		memoIDs = append(memoIDs, memoResource.MemoID)
+	}
+	visibilityList, err := s.FindMemosVisibilityList(ctx, memoIDs)
+	if err != nil {
+		return store.Private, err
+	}
+
+	var isProtected bool
+	for _, visibility := range visibilityList {
+		// If any memo is PUBLIC, resource do
+		if visibility == store.Public {
+			return store.Public, nil
+		}
+
+		if visibility == store.Protected {
+			isProtected = true
+		}
+	}
+
+	// If no memo is PUBLIC, but any memo is PROTECTED, resource do
+	if isProtected {
+		return store.Protected, nil
+	}
+
+	// If all memo is PRIVATE, the resource do
+	return store.Private, nil
 }

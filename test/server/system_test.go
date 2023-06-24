@@ -8,6 +8,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/rabithua/memos/api"
+	apiv1 "github.com/rabithua/memos/api/v1"
 	"github.com/stretchr/testify/require"
 )
 
@@ -21,7 +22,7 @@ func TestSystemServer(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, (*api.User)(nil), status.Host)
 
-	signup := &api.SignUp{
+	signup := &apiv1.SignUp{
 		Username: "testuser",
 		Password: "testpassword",
 	}

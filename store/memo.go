@@ -251,11 +251,46 @@ func (s *Store) DeleteMemo(ctx context.Context, delete *DeleteMemoMessage) error
 	return err
 }
 
-// listMemos 根据查找条件从数据库中检索备忘录列表
-// ctx 上下文环境
-// tx 数据库事务
-// find 查找备忘录的查询条件
-// 返回符合条件的备忘录列表和可能的错误
+func (s *Store) FindMemosVisibilityList(ctx context.Context, memoIDs []int) ([]Visibility, error) {
+	tx, err := s.db.BeginTx(ctx, nil)
+	if err != nil {
+		return nil, FormatError(err)
+	}
+	defer tx.Rollback()
+
+	args := make([]any, 0, len(memoIDs))
+	list := make([]string, 0, len(memoIDs))
+	for _, memoID := range memoIDs {
+		args = append(args, memoID)
+		list = append(list, "?")
+	}
+
+	where := fmt.Sprintf("id in (%s)", strings.Join(list, ","))
+
+	query := `SELECT DISTINCT(visibility) FROM memo WHERE ` + where
+
+	rows, err := tx.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, FormatError(err)
+	}
+	defer rows.Close()
+
+	visibilityList := make([]Visibility, 0)
+	for rows.Next() {
+		var visibility Visibility
+		if err := rows.Scan(&visibility); err != nil {
+			return nil, FormatError(err)
+		}
+		visibilityList = append(visibilityList, visibility)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, FormatError(err)
+	}
+
+	return visibilityList, nil
+}
+
 func listMemos(ctx context.Context, tx *sql.Tx, find *FindMemoMessage) ([]*MemoMessage, error) {
 	// 初始化查询条件和参数
 	where, args := []string{"1 = 1"}, []any{}

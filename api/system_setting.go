@@ -17,8 +17,6 @@ const (
 	SystemSettingSecretSessionName SystemSettingName = "secret-session"
 	// SystemSettingAllowSignUpName is the name of allow signup setting.
 	SystemSettingAllowSignUpName SystemSettingName = "allow-signup"
-	// SystemSettingIgnoreUpgradeName is the name of ignore upgrade.
-	SystemSettingIgnoreUpgradeName SystemSettingName = "ignore-upgrade"
 	// SystemSettingDisablePublicMemosName is the name of disable public memos setting.
 	SystemSettingDisablePublicMemosName SystemSettingName = "disable-public-memos"
 	// SystemSettingMaxUploadSizeMiBName is the name of max upload size setting.
@@ -35,8 +33,8 @@ const (
 	SystemSettingLocalStoragePathName SystemSettingName = "local-storage-path"
 	// SystemSettingOpenAIConfigName is the name of OpenAI config.
 	SystemSettingOpenAIConfigName SystemSettingName = "openai-config"
-	// SystemSettingTelegramRobotToken is the name of Telegram Robot Token.
-	SystemSettingTelegramRobotTokenName       SystemSettingName = "telegram-robot-token"
+	// SystemSettingTelegramBotToken is the name of Telegram Bot Token.
+	SystemSettingTelegramBotTokenName         SystemSettingName = "telegram-bot-token"
 	SystemSettingMemoDisplayWithUpdatedTsName SystemSettingName = "memo-display-with-updated-ts"
 )
 
@@ -69,8 +67,6 @@ func (key SystemSettingName) String() string {
 		return "secret-session"
 	case SystemSettingAllowSignUpName:
 		return "allow-signup"
-	case SystemSettingIgnoreUpgradeName:
-		return "ignore-upgrade"
 	case SystemSettingDisablePublicMemosName:
 		return "disable-public-memos"
 	case SystemSettingMaxUploadSizeMiBName:
@@ -87,8 +83,8 @@ func (key SystemSettingName) String() string {
 		return "local-storage-path"
 	case SystemSettingOpenAIConfigName:
 		return "openai-config"
-	case SystemSettingTelegramRobotTokenName:
-		return "telegram-robot-token"
+	case SystemSettingTelegramBotTokenName:
+		return "telegram-bot-token"
 	case SystemSettingMemoDisplayWithUpdatedTsName:
 		return "memo-display-with-updated-ts"
 	}
@@ -115,11 +111,6 @@ func (upsert SystemSettingUpsert) Validate() error {
 	case SystemSettingServerIDName:
 		return fmt.Errorf("updating %v is not allowed", settingName)
 	case SystemSettingAllowSignUpName:
-		var value bool
-		if err := json.Unmarshal([]byte(upsert.Value), &value); err != nil {
-			return fmt.Errorf(systemSettingUnmarshalError, settingName)
-		}
-	case SystemSettingIgnoreUpgradeName:
 		var value bool
 		if err := json.Unmarshal([]byte(upsert.Value), &value); err != nil {
 			return fmt.Errorf(systemSettingUnmarshalError, settingName)
@@ -178,9 +169,17 @@ func (upsert SystemSettingUpsert) Validate() error {
 		if err := json.Unmarshal([]byte(upsert.Value), &value); err != nil {
 			return fmt.Errorf(systemSettingUnmarshalError, settingName)
 		}
-	case SystemSettingTelegramRobotTokenName:
+	case SystemSettingTelegramBotTokenName:
 		if upsert.Value == "" {
 			return nil
+		}
+		// Bot Token with Reverse Proxy shoule like `http.../bot<token>`
+		if strings.HasPrefix(upsert.Value, "http") {
+			slashIndex := strings.LastIndexAny(upsert.Value, "/")
+			if strings.HasPrefix(upsert.Value[slashIndex:], "/bot") {
+				return nil
+			}
+			return fmt.Errorf("token start with `http` must end with `/bot<token>`")
 		}
 		fragments := strings.Split(upsert.Value, ":")
 		if len(fragments) != 2 {

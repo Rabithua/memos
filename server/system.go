@@ -42,7 +42,6 @@ func (s *Server) registerSystemRoutes(g *echo.Group) {
 			Profile:            *s.Profile,
 			DBSize:             0,
 			AllowSignUp:        false,
-			IgnoreUpgrade:      false,
 			DisablePublicMemos: false,
 			MaxUploadSizeMiB:   32,
 			AdditionalStyle:    "",
@@ -65,7 +64,7 @@ func (s *Server) registerSystemRoutes(g *echo.Group) {
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to find system setting list").SetInternal(err)
 		}
 		for _, systemSetting := range systemSettingList {
-			if systemSetting.Name == api.SystemSettingServerIDName || systemSetting.Name == api.SystemSettingSecretSessionName || systemSetting.Name == api.SystemSettingOpenAIConfigName || systemSetting.Name == api.SystemSettingTelegramRobotTokenName {
+			if systemSetting.Name == api.SystemSettingServerIDName || systemSetting.Name == api.SystemSettingSecretSessionName || systemSetting.Name == api.SystemSettingOpenAIConfigName || systemSetting.Name == api.SystemSettingTelegramBotTokenName {
 				continue
 			}
 
@@ -79,8 +78,6 @@ func (s *Server) registerSystemRoutes(g *echo.Group) {
 			switch systemSetting.Name {
 			case api.SystemSettingAllowSignUpName:
 				systemStatus.AllowSignUp = baseValue.(bool)
-			case api.SystemSettingIgnoreUpgradeName:
-				systemStatus.IgnoreUpgrade = baseValue.(bool)
 			case api.SystemSettingDisablePublicMemosName:
 				systemStatus.DisablePublicMemos = baseValue.(bool)
 			case api.SystemSettingMaxUploadSizeMiBName:
