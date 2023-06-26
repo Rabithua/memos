@@ -227,12 +227,15 @@ func (s *Store) DeleteMemo(ctx context.Context, delete *DeleteMemoMessage) error
 	args := []any{delete.ID}
 
 	where_aitags := []string{"memo_id = ?"}
-	args = append(args, delete.ID)
 
-	stmt := `DELETE FROM memo WHERE ` + strings.Join(where, " AND ") + `;
-	         DELETE FROM memo_aitags WHERE ` + strings.Join(where_aitags, " AND ")
+	stmt := `DELETE FROM memo WHERE ` + strings.Join(where, " AND ") + `;`
+
+	stmt2 := `DELETE FROM memo_aitags WHERE ` + strings.Join(where_aitags, " AND ") + ";"
+
+	tx.ExecContext(ctx, stmt2, args...)
 
 	result, err := tx.ExecContext(ctx, stmt, args...)
+
 	if err != nil {
 		return FormatError(err)
 	}
@@ -241,6 +244,7 @@ func (s *Store) DeleteMemo(ctx context.Context, delete *DeleteMemoMessage) error
 	if err != nil {
 		return err
 	}
+
 	if rows == 0 {
 		return &common.Error{Code: common.NotFound, Err: fmt.Errorf("idp not found")}
 	}

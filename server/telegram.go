@@ -4,8 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"path"
 	"strconv"
+	"time"
 
 	"github.com/rabithua/memos/api"
 	"github.com/rabithua/memos/common"
@@ -69,6 +71,26 @@ func (t *telegramHandler) MessageHandle(ctx context.Context, message telegram.Me
 	if err := createMemoCreateActivity(ctx, t.store, memoMessage); err != nil {
 		return fmt.Errorf("failed to createMemoCreateActivity: %s", err)
 	}
+
+	// 启动一个 Goroutine 执行异步函数
+	go func() {
+		// 创建一个新的 ctx，并使用 cancel 函数取消该 ctx
+		ctx1, cancel := context.WithTimeout(context.Background(), time.Second*10)
+		defer cancel()
+
+		Aitags := getAiTags(&memoMessage.Content)
+		fmt.Println(memoMessage.ID, Aitags)
+		// 保存aitags
+		if _, err := t.store.UpsertMemoAiTags(ctx1, &api.MemoAiTagsUpsert{
+			MemoID: memoMessage.ID,
+			Tags:   Aitags,
+		}); err != nil {
+			log.Printf("Failed to upsert memo resource: %v", err)
+		}
+
+		// 通知异步函数执行完毕
+		// ch <- struct{}{}
+	}()
 
 	// create resources
 	for filename, blob := range blobs {
