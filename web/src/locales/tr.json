@@ -60,10 +60,10 @@
     "preview": "Önizleme",
     "copy-link": "Bağlantıyı kopyala",
     "delete-resource": "Kaynağı sil",
-    "warning-text": "Bu kaynağı silmek istediğinize emin misiniz? BU İŞLEM GERİ ALINAMAZ❗",
+    "warning-text": "Bu kaynağı silmek istediğinize emin misiniz? BU İŞLEM GERİ ALINAMAZ",
     "linked-amount": "Notların sayısı",
     "rename": "Yeniden Adlandır",
-    "warning-text-unused": "Kullanılmayan kaynakları silmek istediğinize emin misiniz? BU İŞLEM GERİ ALINAMAZ❗",
+    "warning-text-unused": "Kullanılmayan kaynakları silmek istediğinize emin misiniz? BU İŞLEM GERİ ALINAMAZ",
     "no-unused-resources": "Kullanılmayan kaynak yok",
     "name": "Ad",
     "clear": "Temizle"
@@ -185,7 +185,7 @@
     "storage": "Depolama",
     "storage-section": {
       "update-a-service": "Hizmeti güncelle",
-      "warning-text": "Bu depolama hizmetini silmek istediğinizden emin misiniz? BU İŞLEM GERİ ALINAMAZ❗",
+      "warning-text": "Bu depolama hizmetini silmek istediğinizden emin misiniz? BU İŞLEM GERİ ALINAMAZ",
       "delete-storage": "Depolamayı Sil",
       "storage-services-list": "Depolama hizmeti listesi",
       "create-a-service": "Hizmet oluştur"

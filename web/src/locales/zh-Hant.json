@@ -99,7 +99,7 @@
       "disabled": "公開 memos 為禁用的"
     },
     "delete-memo": "刪除 Memo",
-    "delete-confirm": "您確定要刪除此memo？\n\n此動作為不可逆❗"
+    "delete-confirm": "您確定要刪除此memo？\n\n此動作為不可逆"
   },
   "resource": {
     "no-resources": "沒有資源。",
@@ -107,14 +107,14 @@
     "copy-link": "複製連結",
     "reset-link": "重設連結",
     "reset-resource-link": "重設資源連結",
-    "reset-link-prompt": "您確定要重設連結？\n這將會破壞所有目前的使用中的連結。\n\n此動作為不可逆❗",
+    "reset-link-prompt": "您確定要重設連結？\n這將會破壞所有目前的使用中的連結。\n\n此動作為不可逆",
     "delete-resource": "刪除資源",
     "linked-amount": "連結的 Memo 數量",
-    "warning-text": "您確定要刪除此資源？\n\n此動作為不可逆❗",
-    "warning-text-unused": "您確定要刪除這些未使用的資源？\n\n此動作為不可逆❗",
+    "warning-text": "您確定要刪除此資源？\n\n此動作為不可逆",
+    "warning-text-unused": "您確定要刪除這些未使用的資源？\n\n此動作為不可逆",
     "no-unused-resources": "無未使用的資源",
     "delete-selected-resources": "刪除所選的資源",
-    "no-files-selected": "沒有檔案被選取❗",
+    "no-files-selected": "沒有檔案被選取",
     "upload-successfully": "上傳成功",
     "file-drag-drop-prompt": "拖曳您的檔案到此處以上傳檔案",
     "search-bar-placeholder": "搜尋資源",
@@ -173,7 +173,7 @@
       "reset-api": "重設 API",
       "openapi-title": "OpenAPI",
       "openapi-reset": "重設 OpenAPI Key",
-      "openapi-reset-warning": "❗ The existing API will be invalidated and a new one will be generated.\n\nAre you sure you want to reset?",
+      "openapi-reset-warning": " The existing API will be invalidated and a new one will be generated.\n\nAre you sure you want to reset?",
       "openapi-sample-post": "Hello #memos from {{url}}"
     },
     "preference-section": {
@@ -197,7 +197,7 @@
       "storage-services-list": "存儲服務列表",
       "create-a-service": "新建服務",
       "update-a-service": "更新服務",
-      "warning-text": "您確定要刪除存儲服務 \"{{name}}\"嗎?\n\n此動作為不可逆❗",
+      "warning-text": "您確定要刪除存儲服務 \"{{name}}\"嗎?\n\n此動作為不可逆",
       "delete-storage": "刪除存儲",
       "local-storage-path": "本地存儲空間路徑",
       "update-local-path": "更新本地存儲空間路徑",
@@ -225,9 +225,9 @@
     "member-section": {
       "create-a-member": "新增使用者",
       "archive-member": "封存使用者",
-      "archive-warning": "❗ 您確定要封存 {{username}}?",
+      "archive-warning": " 您確定要封存 {{username}}?",
       "delete-member": "刪除使用者",
-      "delete-warning": "❗ A您確定要刪除 {{username}}?\n\n此動作為不可逆❗"
+      "delete-warning": " A您確定要刪除 {{username}}?\n\n此動作為不可逆"
     },
     "system-section": {
       "server-name": "伺服器名稱",
@@ -261,7 +261,7 @@
     "sso-section": {
       "sso-list": "SSO List",
       "delete-sso": "確認刪除",
-      "confirm-delete": "您確定要刪除 \"{{name}}\" SSO 設定？\n\n此動作為不可逆❗",
+      "confirm-delete": "您確定要刪除 \"{{name}}\" SSO 設定？\n\n此動作為不可逆",
       "create-sso": "新增 SSO",
       "update-sso": "更新 SSO",
       "sso-created": "SSO {{name}} 新增成功",

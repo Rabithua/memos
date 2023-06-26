@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { useUserStore } from "@/store/module";
-// import { showCommonDialog } from "../Dialog/CommonDialog";
+import { showCommonDialog } from "../Dialog/CommonDialog";
 import showChangePasswordDialog from "../ChangePasswordDialog";
-// import Icon from "../Icon";
+import Icon from "../Icon";
 import showUpdateAccountDialog from "../UpdateAccountDialog";
 import UserAvatar from "../UserAvatar";
 import "@/less/settings/my-account-section.less";
@@ -13,20 +13,20 @@ const MyAccountSection = () => {
   const user = userStore.state.user as User;
   const openAPIRoute = `${window.location.origin}/api/memo?openId=${user.openId}`;
 
-  // const handleResetOpenIdBtnClick = async () => {
-  //   showCommonDialog({
-  //     title: t("setting.account-section.openapi-reset"),
-  //     content: t("setting.account-section.openapi-reset-warning"),
-  //     style: "warning",
-  //     dialogName: "reset-openid-dialog",
-  //     onConfirm: async () => {
-  //       await userStore.patchUser({
-  //         id: user.id,
-  //         resetOpenId: true,
-  //       });
-  //     },
-  //   });
-  // };
+  const handleResetOpenIdBtnClick = async () => {
+    showCommonDialog({
+      title: t("setting.account-section.openapi-reset"),
+      content: t("setting.account-section.openapi-reset-warning"),
+      style: "warning",
+      dialogName: "reset-openid-dialog",
+      onConfirm: async () => {
+        await userStore.patchUser({
+          id: user.id,
+          resetOpenId: true,
+        });
+      },
+    });
+  };
 
   return (
     <>
@@ -45,14 +45,14 @@ const MyAccountSection = () => {
           <button className="btn-normal" onClick={showChangePasswordDialog}>
             {t("setting.account-section.change-password")}
           </button>
+          <button className="btn-normal btn-danger" onClick={handleResetOpenIdBtnClick}>
+            {t("setting.account-section.reset-api")} <Icon.RefreshCw className="ml-2 h-4 w-4" />
+          </button>
         </div>
       </div>
       <div className="section-container openapi-section-container">
         <p className="title-text">{t("setting.account-section.openapi-title")}</p>
         <p className="value-text">{openAPIRoute}</p>
-        {/* <span className="btn-danger mt-2" onClick={handleResetOpenIdBtnClick}>
-          {t("setting.account-section.reset-api")} <Icon.RefreshCw className="ml-2 h-4 w-4" />
-        </span> */}
         <div className="usage-guide-container">
           <pre>{`POST ${openAPIRoute}\nContent-type: application/json\n{\n  "content": "${t("setting.account-section.openapi-sample-post", {
             url: window.location.origin,

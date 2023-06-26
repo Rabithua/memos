@@ -180,7 +180,7 @@
     "archived-memos": "归档备忘录",
     "copy": "复制",
     "copy-link": "复制链接",
-    "delete-confirm": "您确定要删除此备忘录吗？\n\n此操作不可逆❗",
+    "delete-confirm": "您确定要删除此备忘录吗？\n\n此操作不可逆",
     "delete-memo": "删除备忘录",
     "embed": "嵌入",
     "fetch-more": "点击此处获取更多",
@@ -271,20 +271,20 @@
     "file-drag-drop-prompt": "将您的文件拖放到此处以上传文件",
     "linked-amount": "链接的备忘录数量",
     "name": "资源名称",
-    "no-files-selected": "没有文件被选中❗",
+    "no-files-selected": "没有文件被选中",
     "no-resources": "没有资源",
     "no-unused-resources": "无可删除的资源",
     "preview": "预览",
     "rename": "重命名",
     "reset-link": "重置链接",
-    "reset-link-prompt": "您确定要重置链接吗？\n这将打破所有当前的链接用法。\n\n此操作不可逆❗",
+    "reset-link-prompt": "您确定要重置链接吗？\n这将打破所有当前的链接用法。\n\n此操作不可逆",
     "reset-resource-link": "重置资源链接",
     "search-bar-placeholder": "搜索资源",
     "select": "选择",
     "upload": "上传",
     "upload-successfully": "上传成功",
-    "warning-text": "确定删除这个资源么？\n\n此操作不可逆❗",
-    "warning-text-unused": "确定删除这些无用资源么？\n\n此操作不可逆❗"
+    "warning-text": "确定删除这个资源么？\n\n此操作不可逆",
+    "warning-text-unused": "确定删除这些无用资源么？\n\n此操作不可逆"
   },
   "router": {
     "back-to-home": "回到首页"
@@ -298,7 +298,7 @@
       "email-note": "可选",
       "nickname-note": "显示在横幅中",
       "openapi-reset": "重置 OpenAPI 密钥",
-      "openapi-reset-warning": "❗现有的API将失效并生成一个新的API。\n\n您确定要重置吗？",
+      "openapi-reset-warning": "现有的API将失效并生成一个新的API。\n\n您确定要重置吗？",
       "openapi-sample-post": "你好 #memos 来自 {{url}}",
       "openapi-title": "OpenAPI",
       "reset-api": "重置API",
@@ -315,10 +315,10 @@
     "member-list": "成员列表",
     "member-section": {
       "archive-member": "归档成员",
-      "archive-warning": "❗您确定要归档 {{username}} 吗？",
+      "archive-warning": "您确定要归档 {{username}} 吗？",
       "create-a-member": "创建成员",
       "delete-member": "删除成员",
-      "delete-warning": "❗您确定要删除 {{username}} 吗？\n\n此操作不可逆❗"
+      "delete-warning": "您确定要删除 {{username}} 吗？\n\n此操作不可逆"
     },
     "my-account": "我的账号",
     "preference": "偏好设置",
@@ -342,7 +342,7 @@
       "authorization-endpoint": "授权端点（Authorization Endpoint）",
       "client-id": "客户端ID（Client ID）",
       "client-secret": "客户端密钥（Client Secret）",
-      "confirm-delete": "您确定要删除“{{name}}”单点登录配置吗？\n\n此操作不可逆❗",
+      "confirm-delete": "您确定要删除“{{name}}”单点登录配置吗？\n\n此操作不可逆",
       "create-sso": "创建单点登录",
       "custom": "自定义",
       "delete-sso": "确认删除",
@@ -390,7 +390,7 @@
       "url-prefix-placeholder": "自定义 URL 前缀，可选",
       "url-suffix": "URL 后缀",
       "url-suffix-placeholder": "自定义 URL 后缀，可选",
-      "warning-text": "确定删除这个存储服务“{{name}}”么？\n\n此操作不可逆❗"
+      "warning-text": "确定删除这个存储服务“{{name}}”么？\n\n此操作不可逆"
     },
     "system": "系统",
     "system-section": {

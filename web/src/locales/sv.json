@@ -70,10 +70,10 @@
     "preview": "Förhandsvisa",
     "copy-link": "Kopiera länk",
     "delete-resource": "Ta bort resurs",
-    "warning-text": "Är du säker på att du vill ta bort den här resursen? DENNA ÅTGÄRD ÄR OÅTERSTÄLLBAR❗",
+    "warning-text": "Är du säker på att du vill ta bort den här resursen? DENNA ÅTGÄRD ÄR OÅTERSTÄLLBAR",
     "linked-amount": "Länkat antecknings belopp",
     "rename": "Döp om",
-    "warning-text-unused": "Är du säker på att du vill ta bort denna oanvända resurs? DENNA ÅTGÄRD ÄR OÅTERSTÄLLBAR❗",
+    "warning-text-unused": "Är du säker på att du vill ta bort denna oanvända resurs? DENNA ÅTGÄRD ÄR OÅTERSTÄLLBAR",
     "no-unused-resources": "Inga oanvända resurser",
     "name": "Name",
     "clear": "Rensa"
@@ -196,7 +196,7 @@
       "create-a-service": "Skapa en tjänst",
       "storage-services-list": "Lista över lagringstjänster",
       "update-a-service": "Uppdatera en tjänst",
-      "warning-text": "Är du säker på att ta bort den här lagringstjänsten? DEN HÄR ÅTGÄRDEN ÄR IRREVERSIBEL❗",
+      "warning-text": "Är du säker på att ta bort den här lagringstjänsten? DEN HÄR ÅTGÄRDEN ÄR IRREVERSIBEL",
       "delete-storage": "Ta bort lagring"
     },
     "storage": "Lagring",

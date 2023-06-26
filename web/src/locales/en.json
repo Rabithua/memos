@@ -106,7 +106,7 @@
       "disabled": "Public memos are disabled"
     },
     "delete-memo": "Delete Memo",
-    "delete-confirm": "Are you sure to delete this memo?\n\nTHIS ACTION IS IRREVERSIBLE❗"
+    "delete-confirm": "Are you sure to delete this memo?\n\nTHIS ACTION IS IRREVERSIBLE"
   },
   "resource": {
     "no-resources": "No resources.",
@@ -114,14 +114,14 @@
     "copy-link": "Copy Link",
     "reset-link": "Reset Link",
     "reset-resource-link": "Reset Resource Link",
-    "reset-link-prompt": "Are you sure to reset the link?\nThis will break all current link usages.\n\nTHIS ACTION IS IRREVERSIBLE❗",
+    "reset-link-prompt": "Are you sure to reset the link?\nThis will break all current link usages.\n\nTHIS ACTION IS IRREVERSIBLE",
     "delete-resource": "Delete Resource",
     "linked-amount": "Linked amount",
-    "warning-text": "Are you sure to delete this resource?\n\nTHIS ACTION IS IRREVERSIBLE❗",
-    "warning-text-unused": "Are you sure to delete these unused resources?\n\nTHIS ACTION IS IRREVERSIBLE❗",
+    "warning-text": "Are you sure to delete this resource?\n\nTHIS ACTION IS IRREVERSIBLE",
+    "warning-text-unused": "Are you sure to delete these unused resources?\n\nTHIS ACTION IS IRREVERSIBLE",
     "no-unused-resources": "No unused resources",
     "delete-selected-resources": "Delete Selected Resources",
-    "no-files-selected": "No files selected❗",
+    "no-files-selected": "No files selected",
     "upload-successfully": "Upload successfully",
     "file-drag-drop-prompt": "Drag and drop your file here to upload file",
     "search-bar-placeholder": "Search resource",
@@ -180,7 +180,7 @@
       "reset-api": "Reset API",
       "openapi-title": "OpenAPI",
       "openapi-reset": "Reset OpenAPI Key",
-      "openapi-reset-warning": "❗ The existing API will be invalidated and a new one will be generated.\n\nAre you sure you want to reset?",
+      "openapi-reset-warning": " The existing API will be invalidated and a new one will be generated.\n\nAre you sure you want to reset?",
       "openapi-sample-post": "Hello #memos from {{url}}"
     },
     "preference-section": {
@@ -206,7 +206,7 @@
       "storage-services-list": "Storage service list",
       "create-a-service": "Create a service",
       "update-a-service": "Update a service",
-      "warning-text": "Are you sure to delete storage service \"{{name}}\"?\n\nTHIS ACTION IS IRREVERSIBLE❗",
+      "warning-text": "Are you sure to delete storage service \"{{name}}\"?\n\nTHIS ACTION IS IRREVERSIBLE",
       "delete-storage": "Delete Storage",
       "local-storage-path": "Local storage path",
       "update-local-path": "Update Local Storage Path",
@@ -234,9 +234,9 @@
     "member-section": {
       "create-a-member": "Create a member",
       "archive-member": "Archive member",
-      "archive-warning": "❗ Are you sure to archive {{username}}?",
+      "archive-warning": " Are you sure to archive {{username}}?",
       "delete-member": "Delete Member",
-      "delete-warning": "❗ Are you sure to delete {{username}}?\n\nTHIS ACTION IS IRREVERSIBLE❗"
+      "delete-warning": " Are you sure to delete {{username}}?\n\nTHIS ACTION IS IRREVERSIBLE"
     },
     "system-section": {
       "server-name": "Server Name",
@@ -275,7 +275,7 @@
     "sso-section": {
       "sso-list": "SSO List",
       "delete-sso": "Confirm delete",
-      "confirm-delete": "Are you sure to delete \"{{name}}\" SSO configuration?\n\nTHIS ACTION IS IRREVERSIBLE❗",
+      "confirm-delete": "Are you sure to delete \"{{name}}\" SSO configuration?\n\nTHIS ACTION IS IRREVERSIBLE",
       "create-sso": "Create SSO",
       "update-sso": "Update SSO",
       "sso-created": "SSO {{name}} created",

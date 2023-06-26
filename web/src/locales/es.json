@@ -70,10 +70,10 @@
     "preview": "Vista previa",
     "copy-link": "Copiar Enlace",
     "delete-resource": "Borrar Recurso",
-    "warning-text": "¿Está seguro de eliminar este recurso? ESTA ACCIÓN ES IRREVERSIBLE❗",
+    "warning-text": "¿Está seguro de eliminar este recurso? ESTA ACCIÓN ES IRREVERSIBLE",
     "linked-amount": "Importe de la nota vinculado",
     "rename": "Renombrar",
-    "warning-text-unused": "¿Está seguro de eliminar estos recursos no utilizados? ESTA ACCIÓN ES IRREVERSIBLE❗",
+    "warning-text-unused": "¿Está seguro de eliminar estos recursos no utilizados? ESTA ACCIÓN ES IRREVERSIBLE",
     "no-unused-resources": "No hay recursos sin utilizar",
     "name": "Nombre",
     "clear": "Limpiar"
@@ -198,7 +198,7 @@
       "storage-services-list": "Lista de servicios de almacenamiento",
       "create-a-service": "Crear un servicio",
       "update-a-service": "Actualizar un servicio",
-      "warning-text": "¿Está seguro de eliminar este servicio de almacenamiento? ESTA ACCIÓN ES IRREVERSIBLE❗",
+      "warning-text": "¿Está seguro de eliminar este servicio de almacenamiento? ESTA ACCIÓN ES IRREVERSIBLE",
       "delete-storage": "Eliminar almacenamiento"
     }
   },

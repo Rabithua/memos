@@ -71,10 +71,10 @@
     "linked-amount": "Liczba kwalifikujących się notatek",
     "copy-link": "Kopiuj odnośnik",
     "delete-resource": "Usuń zasób",
-    "warning-text": "Czy na pewno chcesz usunąć zasób? To działanie jest nieodwracalne❗",
+    "warning-text": "Czy na pewno chcesz usunąć zasób? To działanie jest nieodwracalne",
     "rename": "Zmień nazwę",
     "clear": "Wyczyść",
-    "warning-text-unused": "Czy na pewno chcesz usunąć nieużywany zasób? To działanie jest nieodwracalne❗",
+    "warning-text-unused": "Czy na pewno chcesz usunąć nieużywany zasób? To działanie jest nieodwracalne",
     "no-unused-resources": "Brak nieużywanych zasobów",
     "name": "Nazwa"
   },
@@ -175,7 +175,7 @@
       "storage-services-list": "Lista usług przechowywania",
       "create-a-service": "Utwórz serwis",
       "update-a-service": "Aktualizuj serwis",
-      "warning-text": "Czy na pewno chcesz usunąć ten serwis przechowywania? Ta akcja jest nieodwracalna❗",
+      "warning-text": "Czy na pewno chcesz usunąć ten serwis przechowywania? Ta akcja jest nieodwracalna",
       "delete-storage": "Usuń serwis przechowywania"
     },
     "member-section": {

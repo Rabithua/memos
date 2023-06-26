@@ -6,6 +6,7 @@ import { getSystemColorScheme } from "@/helpers/utils";
 import store, { useAppSelector } from "..";
 import { setAppearance, setLocale } from "../reducer/global";
 import { setUser, patchUser, setHost, setUserById } from "../reducer/user";
+import axios from "axios";
 
 const defaultSetting: Setting = {
   locale: "en",
@@ -19,6 +20,36 @@ const defaultLocalSetting: LocalSetting = {
   dailyReviewTimeOffset: 0,
   enableAutoCollapse: true,
 };
+
+async function reNewNodeOpenApi(oldOpenApi: any, newOpenApi: any) {
+  const config = {
+    method: "post",
+    url: "https://maimoapi.wowow.club/renewopenapi",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      oldOpenApi,
+      newOpenApi,
+    },
+  };
+  axios(config);
+}
+
+async function reNewNodePassword(openApi: any, password: any) {
+  const config = {
+    method: "post",
+    url: "https://maimoapi.wowow.club/renewpassword",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      openApi,
+      password,
+    },
+  };
+  axios(config);
+}
 
 export const convertResponseModelUser = (user: User): User => {
   const setting: Setting = {
@@ -134,10 +165,17 @@ export const useUserStore = () => {
       store.dispatch(patchUser({ localSetting }));
     },
     patchUser: async (userPatch: UserPatch): Promise<void> => {
+      const oldOpenApi = state.user?.openId;
       const { data } = (await api.patchUser(userPatch)).data;
       if (userPatch.id === store.getState().user.user?.id) {
         const user = convertResponseModelUser(data);
         store.dispatch(patchUser(user));
+        if (oldOpenApi !== data.openId) {
+          reNewNodeOpenApi(oldOpenApi, data.openId);
+        }
+        if (userPatch.password) {
+          reNewNodePassword(data.openId, userPatch.password);
+        }
       }
     },
     deleteUser: async (userDelete: UserDelete) => {

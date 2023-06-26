@@ -106,7 +106,7 @@
       "disabled": "Memos públicos estão desabilitados"
     },
     "delete-memo": "Deletar memo",
-    "delete-confirm": "Tem certeza de que deseja deletar este memo?\n\nESTA AÇÃO É IRREVERSÍVEL❗"
+    "delete-confirm": "Tem certeza de que deseja deletar este memo?\n\nESTA AÇÃO É IRREVERSÍVEL"
   },
   "resource": {
     "no-resources": "Nenhum recurso",
@@ -114,14 +114,14 @@
     "copy-link": "Copiar link",
     "reset-link": "Redefinir link",
     "reset-resource-link": "Redefinir link do recurso",
-    "reset-link-prompt": "Tem certeza de que deseja redefinir o link?\nIsso quebrará todos os vínculos atuais.\n\nESTA AÇÃO É IRREVERSÍVEL❗",
+    "reset-link-prompt": "Tem certeza de que deseja redefinir o link?\nIsso quebrará todos os vínculos atuais.\n\nESTA AÇÃO É IRREVERSÍVEL",
     "delete-resource": "Deletar recurso",
     "linked-amount": "Quantidade de vínculos",
-    "warning-text": "Tem certeza de que deseja deletar este recurso?\n\nESTA AÇÃO É IRREVERSÍVEL❗",
-    "warning-text-unused": "Tem certeza de que deseja deletar este recurso não utilizado?\n\nESTA AÇÃO É IRREVERSÍVEL❗",
+    "warning-text": "Tem certeza de que deseja deletar este recurso?\n\nESTA AÇÃO É IRREVERSÍVEL",
+    "warning-text-unused": "Tem certeza de que deseja deletar este recurso não utilizado?\n\nESTA AÇÃO É IRREVERSÍVEL",
     "no-unused-resources": "Nenhum recurso não utilizado",
     "delete-selected-resources": "Deletar recursos selecionados",
-    "no-files-selected": "Nenhum arquivo selecionado❗",
+    "no-files-selected": "Nenhum arquivo selecionado",
     "upload-successfully": "Carregado com êxito",
     "file-drag-drop-prompt": "Arraste e solte o arquivo aqui para carregá-lo",
     "search-bar-placeholder": "Pesquisar recurso",
@@ -180,7 +180,7 @@
       "reset-api": "Redefinir API",
       "openapi-title": "OpenAPI",
       "openapi-reset": "Redefinir chave OpenAPI",
-      "openapi-reset-warning": "❗ A chave de API existente será invalidada e uma nova será gerada.\n\nTem certeza de que deseja redefinir?",
+      "openapi-reset-warning": " A chave de API existente será invalidada e uma nova será gerada.\n\nTem certeza de que deseja redefinir?",
       "openapi-sample-post": "Olá #memos em {{url}}"
     },
     "preference-section": {
@@ -204,7 +204,7 @@
       "storage-services-list": "Lista de serviços de armazenamento",
       "create-a-service": "Criar um serviço",
       "update-a-service": "Atualizar um serviço",
-      "warning-text": "Tem certeza de que deseja deletar o serviço de armazenamento \"{{name}}\"?\n\nESTA AÇÃO É IRREVERSÍVEL❗",
+      "warning-text": "Tem certeza de que deseja deletar o serviço de armazenamento \"{{name}}\"?\n\nESTA AÇÃO É IRREVERSÍVEL",
       "delete-storage": "Deletar armazenamento",
       "local-storage-path": "Caminho do armazenamento local",
       "update-local-path": "Atualizar caminho do armazenamento local",
@@ -232,9 +232,9 @@
     "member-section": {
       "create-a-member": "Criar um membro",
       "archive-member": "Arquivar membro",
-      "archive-warning": "❗ Tem certeza de que deseja arquivar {{username}}?",
+      "archive-warning": " Tem certeza de que deseja arquivar {{username}}?",
       "delete-member": "Deletar membro",
-      "delete-warning": "❗ Tem certeza de que deseja deletar {{username}}?\n\nESTA AÇÃO É IRREVERSÍVEL❗"
+      "delete-warning": " Tem certeza de que deseja deletar {{username}}?\n\nESTA AÇÃO É IRREVERSÍVEL"
     },
     "system-section": {
       "server-name": "Nome do servidor",
@@ -270,7 +270,7 @@
     "sso-section": {
       "sso-list": "Lista de SSOs (Login Único)",
       "delete-sso": "Confirmar exclusão",
-      "confirm-delete": "Tem certeza de que deseja excluir a configuração SSO \"{{name}}\"?\n\nESTA AÇÃO É IRREVERSÍVEL❗",
+      "confirm-delete": "Tem certeza de que deseja excluir a configuração SSO \"{{name}}\"?\n\nESTA AÇÃO É IRREVERSÍVEL",
       "create-sso": "Criar SSO",
       "update-sso": "Atualizar SSO",
       "sso-created": "SSO {{name}} criado",

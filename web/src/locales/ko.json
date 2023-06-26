@@ -106,7 +106,7 @@
       "disabled": "공개 메모는 비활성화됨"
     },
     "delete-memo": "메모 삭제",
-    "delete-confirm": "이 메모를 완전히 삭제하시겠습니까?\n\n이 행동은 되돌릴 수 없습니다❗"
+    "delete-confirm": "이 메모를 완전히 삭제하시겠습니까?\n\n이 행동은 되돌릴 수 없습니다"
   },
   "resource": {
     "no-resources": "리소스 없음.",
@@ -114,14 +114,14 @@
     "copy-link": "링크 복사",
     "reset-link": "링크 초기화",
     "reset-resource-link": "리소스 링크 초기화",
-    "reset-link-prompt": "이 리소스의 링크를 초기화하시겠습니까?\n리소스를 링크 형태로 참조하는 모든 곳에서 문제가 생길 수 있습니다.\n\n이 행동은 되돌릴 수 없습니다❗",
+    "reset-link-prompt": "이 리소스의 링크를 초기화하시겠습니까?\n리소스를 링크 형태로 참조하는 모든 곳에서 문제가 생길 수 있습니다.\n\n이 행동은 되돌릴 수 없습니다",
     "delete-resource": "리소스 삭제",
     "linked-amount": "연결된 메모 수",
-    "warning-text": "이 리소스를 완전히 삭제하시겠습니까? 이 행동은 되돌릴 수 없습니다❗",
-    "warning-text-unused": "사용된 적 없는 다음 리소스들을 완전히 삭제하시겠습니까? 이 행동은 되돌릴 수 없습니다❗",
+    "warning-text": "이 리소스를 완전히 삭제하시겠습니까? 이 행동은 되돌릴 수 없습니다",
+    "warning-text-unused": "사용된 적 없는 다음 리소스들을 완전히 삭제하시겠습니까? 이 행동은 되돌릴 수 없습니다",
     "no-unused-resources": "사용되지 않는 리소스 없음",
     "delete-selected-resources": "선택된 리소스 삭제",
-    "no-files-selected": "파일을 선택하지 않았습니다❗",
+    "no-files-selected": "파일을 선택하지 않았습니다",
     "upload-successfully": "성공적으로 업로드했습니다",
     "file-drag-drop-prompt": "업로드할 파일을 여기에 드래그하세요",
     "search-bar-placeholder": "리소스 검색하기",
@@ -180,7 +180,7 @@
       "reset-api": "API 초기화",
       "openapi-title": "OpenAPI",
       "openapi-reset": "OpenAPI 키 초기화",
-      "openapi-reset-warning": "❗현재 API 키가 완전히 파기되고 새로운 키가 생성됩니다.\n\nAPI 키를 초기화할까요?",
+      "openapi-reset-warning": "현재 API 키가 완전히 파기되고 새로운 키가 생성됩니다.\n\nAPI 키를 초기화할까요?",
       "openapi-sample-post": "{{url}}의 #메모 들에게 안녕!"
     },
     "preference-section": {
@@ -206,7 +206,7 @@
       "storage-services-list": "저장소 서비스 목록",
       "create-a-service": "서비스 생성",
       "update-a-service": "서비스 편집",
-      "warning-text": "저장소 서비스 \"{{name}}\"을(를) 삭제 하시겠습니까? 이 행동은 되돌릴 수 없습니다❗",
+      "warning-text": "저장소 서비스 \"{{name}}\"을(를) 삭제 하시겠습니까? 이 행동은 되돌릴 수 없습니다",
       "delete-storage": "저장소 삭제",
       "local-storage-path": "로컬 저장소 경로",
       "update-local-path": "로컬 저장소 경로 수정",
@@ -234,9 +234,9 @@
     "member-section": {
       "create-a-member": "새 멤버 등록",
       "archive-member": "멤버 보관처리",
-      "archive-warning": "❗ 멤버 {{username}} 의 계정을 보관처리하시겠습니까?",
+      "archive-warning": " 멤버 {{username}} 의 계정을 보관처리하시겠습니까?",
       "delete-member": "멤버 계정 삭제",
-      "delete-warning": "❗ 멤버 {{username}} 의 계정을 완전히 삭제하시겠습니까?\n\n이 행동은 되돌릴 수 없습니다❗"
+      "delete-warning": " 멤버 {{username}} 의 계정을 완전히 삭제하시겠습니까?\n\n이 행동은 되돌릴 수 없습니다"
     },
     "system-section": {
       "server-name": "서버 이름",
@@ -275,7 +275,7 @@
     "sso-section": {
       "sso-list": "SSO 목록",
       "delete-sso": "삭제 확인",
-      "confirm-delete": "SSO 설정 \"{{name}}\"을 완전히 삭제하시겠습니까?\n\n이 행동은 되돌릴 수 없습니다❗",
+      "confirm-delete": "SSO 설정 \"{{name}}\"을 완전히 삭제하시겠습니까?\n\n이 행동은 되돌릴 수 없습니다",
       "create-sso": "SSO 생성",
       "update-sso": "SSO 수정",
       "sso-created": "SSO {{name}}이 생성되었습니다",

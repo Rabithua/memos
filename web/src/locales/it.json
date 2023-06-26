@@ -70,10 +70,10 @@
     "preview": "Anteprima",
     "copy-link": "Copia link",
     "delete-resource": "Cancella risorsa",
-    "warning-text": "Sei sicuro di voler eliminare questa risorsa? QUESTA AZIONE È IRREVERSIBILE❗",
+    "warning-text": "Sei sicuro di voler eliminare questa risorsa? QUESTA AZIONE È IRREVERSIBILE",
     "linked-amount": "Linked memo amount",
     "rename": "Rinomina",
-    "warning-text-unused": "Sei sicuro di voler eliminare queste risorse? QUESTA AZIONE È IRREVERSIBILE❗",
+    "warning-text-unused": "Sei sicuro di voler eliminare queste risorse? QUESTA AZIONE È IRREVERSIBILE",
     "no-unused-resources": "Nessuna risorsa inutilizzata",
     "name": "Nome",
     "clear": "Clear"
@@ -198,7 +198,7 @@
       "storage-services-list": "Storage service list",
       "create-a-service": "Create a service",
       "update-a-service": "Update a service",
-      "warning-text": "Are you sure to delete this storage service? THIS ACTION IS IRREVERSIBLE❗",
+      "warning-text": "Are you sure to delete this storage service? THIS ACTION IS IRREVERSIBLE",
       "delete-storage": "Delete Storage"
     }
   },

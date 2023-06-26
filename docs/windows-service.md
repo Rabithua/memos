@@ -2,7 +2,7 @@
 
 While memos first-class support is for Docker, you may also install memos as a Windows service. It will run under SYSTEM account and start automatically at system boot.
 
-❗ All service management methods requires admin privileges. Use [gsudo](https://gerardog.github.io/gsudo/docs/install), or open a new PowerShell terminal as admin:
+ All service management methods requires admin privileges. Use [gsudo](https://gerardog.github.io/gsudo/docs/install), or open a new PowerShell terminal as admin:
 
 ```powershell
 Start-Process powershell -Verb RunAs
