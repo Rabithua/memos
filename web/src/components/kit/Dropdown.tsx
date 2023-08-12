@@ -32,7 +32,7 @@ const Dropdown: React.FC<Props> = (props: Props) => {
   return (
     <div
       ref={dropdownWrapperRef}
-      className={`relative flex flex-col justify-start items-start select-none ${className ?? ""}`}
+      className={`relative flex flex-col justify-start items-end select-none ${className ?? ""}`}
       onClick={() => toggleDropdownStatus()}
     >
       {trigger ? (

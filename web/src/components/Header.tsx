@@ -43,12 +43,12 @@ const Header = () => {
         onClick={() => layoutStore.setHeaderStatus(false)}
       ></div>
       <header
-        className={`relative w-56 sm:w-full h-full max-h-screen overflow-auto hide-scrollbar flex flex-col justify-start items-start py-4 z-30 bg-zinc-100 dark:bg-zinc-800 sm:bg-transparent sm:shadow-none transition-all duration-300 -translate-x-full sm:translate-x-0 ${
+        className={`relative w-56 sm:w-full h-screen justify-center overflow-auto hide-scrollbar flex flex-col items-start py-4 z-30 bg-zinc-100 dark:bg-zinc-800 sm:bg-transparent sm:shadow-none transition-all duration-300 -translate-x-full sm:translate-x-0 ${
           showHeader && "translate-x-0 shadow-2xl"
         }`}
       >
         <UserBanner />
-        <div className="w-full px-2 py-2 flex flex-col justify-start items-start shrink-0 space-y-2">
+        <div className="w-full px-2 py-2 flex flex-col justify-start items-end shrink-0 space-y-2">
           {!isVisitorMode && (
             <>
               <NavLink

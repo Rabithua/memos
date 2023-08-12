@@ -35,7 +35,7 @@ const UserBanner = () => {
   };
 
   return (
-    <div className="flex flex-row justify-between items-center relative w-full h-auto px-2 flex-nowrap shrink-0">
+    <div className="flex flex-row justify-between items-end relative w-full h-auto px-2 flex-nowrap shrink-0">
       <Dropdown
         className="w-full"
         trigger={

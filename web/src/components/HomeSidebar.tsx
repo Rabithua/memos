@@ -22,7 +22,7 @@ const HomeSidebar = () => {
         onClick={() => layoutStore.setHomeSidebarStatus(false)}
       ></div>
       <aside
-        className={`absolute md:relative top-0 right-0 w-56 pr-2 md:w-full h-full max-h-screen overflow-auto hide-scrollbar flex flex-col justify-start items-start py-4 z-30 bg-zinc-100 dark:bg-zinc-800 md:bg-transparent md:shadow-none transition-all duration-300 translate-x-full md:translate-x-0 ${
+        className={`absolute md:relative top-0 right-0 w-56 pr-2 md:w-full md:h-screen md:justify-center h-full max-h-screen overflow-auto hide-scrollbar flex flex-col justify-start items-start py-4 z-30 bg-zinc-100 dark:bg-zinc-800 md:bg-transparent md:shadow-none transition-all duration-300 translate-x-full md:translate-x-0 ${
           showHomeSidebar && "!translate-x-0 shadow-2xl"
         }`}
       >

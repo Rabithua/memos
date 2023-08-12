@@ -9,3 +9,7 @@ body {
 #root {
   @apply w-full h-full;
 }
+
+::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+}

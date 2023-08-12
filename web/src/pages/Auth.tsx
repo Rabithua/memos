@@ -249,19 +249,6 @@ const Auth = () => {
                 {systemStatus?.host ? (
                   <>
                     {actionBtnLoadingState.isLoading && <Icon.Loader className="w-4 h-auto mr-2 animate-spin dark:text-gray-300" />}
-                    {systemStatus?.allowSignUp && (
-                      <>
-                        <button
-                          type="button"
-                          className={`btn-text text-emerald-500 outline outline-emerald-500 bg-emerald-50 w-full py-1 mb-3 ${
-                            actionBtnLoadingState.isLoading ? "cursor-wait opacity-80" : ""
-                          }`}
-                          onClick={handleSignUpBtnsClick}
-                        >
-                          {t("common.sign-up")}
-                        </button>
-                      </>
-                    )}
                     <button
                       type="submit"
                       className={`btn-text text-white w-full bg-emerald-500 py-1 ${
@@ -271,6 +258,19 @@ const Auth = () => {
                     >
                       {t("common.sign-in")}
                     </button>
+                    {systemStatus?.allowSignUp && (
+                      <>
+                        <button
+                          type="button"
+                          className={`btn-text text-emerald-500 outline outline-emerald-500 bg-emerald-50 w-full py-1 mt-3 ${
+                            actionBtnLoadingState.isLoading ? "cursor-wait opacity-80" : ""
+                          }`}
+                          onClick={handleSignUpBtnsClick}
+                        >
+                          {t("common.sign-up")}
+                        </button>
+                      </>
+                    )}
                   </>
                 ) : (
                   <>
