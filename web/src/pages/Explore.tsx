@@ -87,7 +87,7 @@ const Explore = () => {
     <section className="w-full max-w-2xl min-h-full overflow-y-scroll flex flex-col md:justify-center justify-start items-center px-4 sm:px-2 sm:pt-4 pb-8 bg-zinc-100 dark:bg-zinc-800">
       <MobileHeader showSearch={false} />
       {!loadingState.isLoading && (
-        <main className="relative w-full h-auto flex flex-col justify-start items-start -mt-2">
+        <main className="relative w-full h-auto md:max-h-full md:overflow-y-scroll flex flex-col justify-start items-start -mt-2">
           <MemoFilter />
           {sortedMemos.map((memo) => {
             return <Memo key={`${memo.id}-${memo.displayTs}`} memo={memo} readonly={true} />;

@@ -200,7 +200,7 @@ const AskAIDialog: React.FC<Props> = (props: Props) => {
             <Button onClick={() => handleGotoSystemSetting()}>{t("ask-ai.go-to-settings")}</Button>
           </div>
         )}
-        <div className="w-full relative mt-4">
+        <div className="w-full relative h-4/5 mt-4">
           <Textarea
             className="w-full"
             placeholder={t("ask-ai.placeholder")}
