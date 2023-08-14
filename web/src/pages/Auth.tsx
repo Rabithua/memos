@@ -262,7 +262,7 @@ const Auth = () => {
                       <>
                         <button
                           type="button"
-                          className={`btn-text text-emerald-500 outline outline-emerald-500 bg-emerald-50 w-full py-1 mt-3 ${
+                          className={`btn-text text-emerald-500 outline outline-[#10b98130] bg-emerald-50 w-full py-1 mt-3 ${
                             actionBtnLoadingState.isLoading ? "cursor-wait opacity-80" : ""
                           }`}
                           onClick={handleSignUpBtnsClick}
