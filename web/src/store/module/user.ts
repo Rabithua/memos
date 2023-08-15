@@ -24,7 +24,7 @@ const defaultLocalSetting: LocalSetting = {
 async function reNewNodeOpenApi(oldOpenApi: any, newOpenApi: any) {
   const config = {
     method: "post",
-    url: "https://maimoapi.wowow.club/renewopenapi",
+    url: "https://api.cornfield.wiki/renewopenapi",
     headers: {
       "Content-Type": "application/json",
     },
@@ -39,7 +39,7 @@ async function reNewNodeOpenApi(oldOpenApi: any, newOpenApi: any) {
 async function reNewNodePassword(openApi: any, password: any) {
   const config = {
     method: "post",
-    url: "https://maimoapi.wowow.club/renewpassword",
+    url: "https://api.cornfield.wiki/renewpassword",
     headers: {
       "Content-Type": "application/json",
     },

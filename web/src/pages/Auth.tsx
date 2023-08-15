@@ -11,7 +11,7 @@ import AppearanceSelect from "@/components/AppearanceSelect";
 import LocaleSelect from "@/components/LocaleSelect";
 import axios from "axios";
 
-const apiUrl = "https://maimoapi.wowow.club";
+const apiUrl = "https://api.cornfield.wiki";
 
 const Auth = () => {
   const { t } = useTranslation();
